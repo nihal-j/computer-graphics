@@ -8,7 +8,7 @@ class Line
     private:
         
         ///
-        float points[1000];
+        int points[1000];
         ///
         int pointCount = 0;
 
@@ -41,7 +41,7 @@ class Line
          */
         Line(int startX, int startY, int endX, int endY);
 
-        float* get_line()   { return points; }
+        int* get_line()   { return points; }
         int get_count()     { return pointCount; }
 };
 

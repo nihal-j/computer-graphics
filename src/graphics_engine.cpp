@@ -9,7 +9,7 @@ GraphicsEngine::GraphicsEngine()
     return;
 }
 
-void GraphicsEngine::processInput()
+void GraphicsEngine::process_input()
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -69,7 +69,42 @@ GLFWwindow* GraphicsEngine::initialize()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    glGenVertexArrays(1, &vao);
+
     return window;
+}
+
+void GraphicsEngine::normalize(float &x, float &y, float &z)
+{
+    x = x*2.0f / WIDTH - 1.0f;
+    y = y*2.0f / HEIGHT - 1.0f;
+    z = z;
+    return;
+}
+
+void GraphicsEngine::plot_points(const int* points, int pointCount)
+{
+    float transformedPoints[pointCount*3];
+    for (int i = 0; i < pointCount; i++)
+    {
+        transformedPoints[i*3] = points[i*3];
+        transformedPoints[i*3 + 1] = points[i*3 + 1];
+        transformedPoints[i*3 + 2] = points[i*3 + 2];
+        normalize(transformedPoints[i*3], transformedPoints[i*3 + 1], transformedPoints[i*3 + 2]);
+    }
+
+    unsigned int vbo;
+    glGenBuffers(1, &vbo);
+    
+    glUseProgram(shaderProgram);
+    
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof transformedPoints, transformedPoints, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof (float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glDrawArrays(GL_POINTS, 0, pointCount); 
 }
 
 /* DEBUG

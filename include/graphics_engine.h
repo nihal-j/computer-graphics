@@ -47,10 +47,16 @@ class GraphicsEngine
             "    fragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
             "}\n\0";
 
+        /**
+         * @brief 
+         * 
+         * @param x 
+         * @param y 
+         * @param z 
+         */
+        void normalize(float &x, float &y, float &z);
 
 public:
-
-    
 
     /**
      * @brief Construct a new Graphics object.
@@ -64,7 +70,9 @@ public:
      * 
      * @param window pointer to the current window.
      */
-    void processInput();
+    void process_input();
+
+    void plot_points(const int* points, int pointCount);
 
     ///
     GLFWwindow* window;

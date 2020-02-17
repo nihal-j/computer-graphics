@@ -11,29 +11,32 @@ int main()
     GraphicsEngine engine;
     GLFWwindow* window = engine.window;
 
-    Line line(0, 0, 200, 200);
-    float* points = line.get_line();
-    int pointCount = line.get_count();
+    Line line1(0, 0, 200, 200);
+    int* points1 = line1.get_line();
+    int pointCount1 = line1.get_count();
 
-    for (int i = 0; i < 10; i++)
-        std::cout << points[i*3] << " " << points[i*3 + 1] << " " << points[i*3 + 2] << "\n";
-    std::cout << "\n";
-    for (int i = pointCount - 1; i >= pointCount - 10; i--)
-        std::cout << points[i*3] << " " << points[i*3 + 1] << " " << points[i*3 + 2] << "\n";
+    Line line2(400, 400, 600, 500);
+    int* points2 = line2.get_line();
+    int pointCount2 = line2.get_count();
+
+    Line line3(300, 300, 500, 1000);
+    int* points3 = line3.get_line();
+    int pointCount3 = line3.get_count();
 
     // render loop
     while (!glfwWindowShouldClose(window))
     {
         // process all input before updating frame
-        engine.processInput();
+        engine.process_input();
 
         // set color of window
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        /*
-            Drawing happens here.
-        */
+        // Drawing happens here.
+        engine.plot_points(points1, pointCount1);
+        engine.plot_points(points2, pointCount2);
+        engine.plot_points(points3, pointCount3);
 
         // update window
         glfwSwapBuffers(window);

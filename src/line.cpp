@@ -31,7 +31,7 @@ void Line::rasterize_line(int startX, int startY, int endX, int endY)
     
     Line::store_point(x, y);
 
-    while (x <= endX)
+    while (x < endX)
     {
         if (d <= 0)
         {
