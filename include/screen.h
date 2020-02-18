@@ -7,8 +7,8 @@
 #define SCREEN_H
 
 /// Height of the window and viewport.
-const int HEIGHT = 800;
+static int HEIGHT = 800;
 /// Width of the window and viewport.
-const int WIDTH = 800;
+static int WIDTH = 800;
 
 #endif

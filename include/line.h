@@ -8,7 +8,7 @@ class Line
     private:
         
         ///
-        int points[1000];
+        int points[3000];
         ///
         int pointCount = 0;
 
@@ -43,6 +43,14 @@ class Line
 
         int* get_line()   { return points; }
         int get_count()     { return pointCount; }
+
+        /**
+         * @brief 
+         * 
+         * @param startIdx 
+         * @param count 
+         */
+        void print_line(int startIdx, int count);
 };
 
 #endif

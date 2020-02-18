@@ -25,7 +25,9 @@ void GraphicsEngine::process_input()
  */
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+    WIDTH = width;
+    HEIGHT = height;
+    glViewport(0, 0, WIDTH, HEIGHT);
     return;
 }
 

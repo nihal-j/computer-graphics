@@ -3,25 +3,32 @@
 */
 #include <iostream>
 
-#include "graphics_engine.h"
 #include "line.h"
+#include "graphics_engine.h"
 
 int main()
 {
     GraphicsEngine engine;
     GLFWwindow* window = engine.window;
 
-    Line line1(0, 0, 200, 200);
-    int* points1 = line1.get_line();
-    int pointCount1 = line1.get_count();
+    // Butterfly shape
+    const int n = 5;
+    Line lines[n] = {
+        {200, 200, 600, 600},
+        {200, 300, 600, 500},
+        {200, 400, 600, 400},
+        {200, 500, 600, 300},
+        {200, 600, 600, 200},
+    };
+    int *points[n], pointCount[n];
+    for (int i = 0; i < n; i++)
+        points[i] = lines[i].get_line(), pointCount[i] = lines[i].get_count();
 
-    Line line2(400, 400, 600, 500);
-    int* points2 = line2.get_line();
-    int pointCount2 = line2.get_count();
-
-    Line line3(300, 300, 500, 1000);
-    int* points3 = line3.get_line();
-    int pointCount3 = line3.get_count();
+    for (int i = 0; i < n; i++)
+    {
+        std::cout << "Line " << i << "\n";
+        lines[i].print_line(pointCount[i] - 10, 10);
+    }
 
     // render loop
     while (!glfwWindowShouldClose(window))
@@ -34,9 +41,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Drawing happens here.
-        engine.plot_points(points1, pointCount1);
-        engine.plot_points(points2, pointCount2);
-        engine.plot_points(points3, pointCount3);
+        for (int i = 0; i < n; i++)
+            engine.plot_points(points[i], pointCount[i]);
 
         // update window
         glfwSwapBuffers(window);

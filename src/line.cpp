@@ -21,32 +21,31 @@ void Line::rasterize_line(int startX, int startY, int endX, int endY)
 {
     int dx = endX - startX;
     int dy = endY - startY;
-
+    
     int d = (2 * dy) - dx;
-
-    int incrE = 2 * dy;
-    int incrNE = 2 * (dy - dx);
-
     int x = startX, y = startY;
+
+    int sign = dy >= 0 ? 1 : -1;
     
     Line::store_point(x, y);
 
     while (x < endX)
     {
-        if (d <= 0)
+        if (d * sign > 0)
         {
-            // Choose E pixel
-            d += incrE;
-            x++;
+            y += sign;
+            d -= 2 * dx * sign;
         }
-        else
-        {
-            // choose NE pixel
-            d += incrNE;
-            x++; y++;
-        }
+        d += 2 * dy;
+        x++;
         Line::store_point(x, y);
     }
+}
+
+void Line::print_line(int startIdx, int count)
+{
+    for (int i = startIdx; i <= startIdx + count - 1; i++)
+        std::cout << points[i*3] << ", " << points[i*3 + 1] << ", " << points[i*3 + 2] << "\n";
 }
 
 /* DEBUG 
@@ -54,11 +53,11 @@ void Line::rasterize_line(int startX, int startY, int endX, int endY)
 
 int main()
 {
-    Line line(0, 0, 200, 200);
-    float* points = line.get_line();
+    Line line(400, 400, 600, 300);
+    int* points = line.get_line();
     int pointCount = line.get_count();
 
-    std::cout << pointCount << "\n";
+    line.print_line(pointCount - 10, 10);
 
     return 0;
 }
