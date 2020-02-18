@@ -11,15 +11,19 @@ int main()
     GraphicsEngine engine;
     GLFWwindow* window = engine.window;
 
-    // Butterfly shape
-    const int n = 5;
+    // Arrow Head
+    const int n = 8;
     Line lines[n] = {
-        {200, 200, 600, 600},
-        {200, 300, 600, 500},
-        {200, 400, 600, 400},
-        {200, 500, 600, 300},
-        {200, 600, 600, 200},
+        {300, 100, 400, 200},
+        {300, 100, 400, 600},
+        {400, 200, 500, 100},
+        {400, 600, 500, 100},
+        {210, 10, 210, 690},
+        {210, 10, 590, 10},
+        {590, 10, 590, 690},
+        {210, 690, 590, 690},
     };
+    
     int *points[n], pointCount[n];
     for (int i = 0; i < n; i++)
         points[i] = lines[i].get_line(), pointCount[i] = lines[i].get_count();

@@ -40,8 +40,10 @@ class Line
          * @param endX, endY end coordinates of the line in projection space
          */
         Line(int startX, int startY, int endX, int endY);
-
+        
+        /// 
         int* get_line()   { return points; }
+        /// 
         int get_count()     { return pointCount; }
 
         /**

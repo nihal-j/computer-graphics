@@ -6,9 +6,11 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-/// Height of the window and viewport.
+/** Height of the window and viewport.
+ */
 static int HEIGHT = 800;
-/// Width of the window and viewport.
+/** Width of the window and viewport.
+ */
 static int WIDTH = 800;
 
 #endif

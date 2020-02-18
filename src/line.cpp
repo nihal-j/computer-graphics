@@ -21,25 +21,42 @@ void Line::rasterize_line(int startX, int startY, int endX, int endY)
 {
     int dx = endX - startX;
     int dy = endY - startY;
-    
-    int d = (2 * dy) - dx;
-    int x = startX, y = startY;
-
     int sign = dy >= 0 ? 1 : -1;
-    
+
+    int x = startX, y = startY;
     Line::store_point(x, y);
 
-    while (x < endX)
+    if (dy*sign <= dx)
     {
-        if (d * sign > 0)
+        int d = (2 * dy) - dx;
+        while (x < endX)
         {
-            y += sign;
-            d -= 2 * dx * sign;
+            if (d * sign > 0)
+            {
+                y += sign;
+                d -= 2 * dx * sign;
+            }
+            d += 2 * dy;
+            x++;
+            Line::store_point(x, y);
         }
-        d += 2 * dy;
-        x++;
-        Line::store_point(x, y);
     }
+    else
+    {
+        int d = dy + (2 * dx);
+        while ((sign > 0 && y < endY) || (sign < 0 && y > endY))
+        {
+            if (d * sign <= 0)
+            {
+                x++;
+                d += 2 * dy;
+            }
+            d -= 2 * dx * sign;
+            y += sign;
+            Line::store_point(x, y);
+        }
+    }
+    
 }
 
 void Line::print_line(int startIdx, int count)

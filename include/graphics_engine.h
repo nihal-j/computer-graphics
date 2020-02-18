@@ -72,6 +72,12 @@ public:
      */
     void process_input();
 
+    /**
+     * @brief 
+     * 
+     * @param points 
+     * @param pointCount 
+     */
     void plot_points(const int* points, int pointCount);
 
     ///
