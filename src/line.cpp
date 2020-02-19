@@ -4,7 +4,15 @@
 
 Line::Line(int startX, int startY, int endX, int endY)
 {
-    Line::rasterize_line(startX, startY, endX, endY);
+    this -> startX = startX;
+    this -> startY = startY;
+    this -> endX = endX;
+    this -> endY = endY;
+
+    pointCount = 0;
+
+    Line::rasterize_line();
+
     return;
 }
 
@@ -17,7 +25,7 @@ void Line::store_point(int x, int y)
     return;
 }
 
-void Line::rasterize_line(int startX, int startY, int endX, int endY)
+void Line::rasterize_line()
 {
     int dx = endX - startX;
     int dy = endY - startY;

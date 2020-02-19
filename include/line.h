@@ -11,19 +11,19 @@ class Line
         int points[3000];
         ///
         int pointCount = 0;
+        ///
+        int startX, startY, endX, endY;
 
         /**
          * @brief Use Bresenham's Line Drawing algorithm to get the pixel values to be
          * drawn.
          * 
-         * The algorithm implementation uses only integer operations, however, OpenGL requires
-         * floating point values for plotting purposes. So, the pixel values are stored as
-         * float numbers.
+         * The algorithm implementation uses only integer operations.
          * 
          * @param startX, startY start coordinates of the line in projection space
          * @param endX, endY end coordinates of the line in projection space
          */
-        void rasterize_line(int startX, int startY, int endX, int endY);
+        void rasterize_line();
 
         /**
          * @brief Utility function to store the point in `points`.

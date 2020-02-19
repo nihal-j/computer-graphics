@@ -3,6 +3,7 @@
 */
 #include <iostream>
 
+#include "circle.h"
 #include "line.h"
 #include "graphics_engine.h"
 
@@ -11,28 +12,19 @@ int main()
     GraphicsEngine engine;
     GLFWwindow* window = engine.window;
 
-    // Arrow Head
-    const int n = 8;
-    Line lines[n] = {
-        {300, 100, 400, 200},
-        {300, 100, 400, 600},
-        {400, 200, 500, 100},
-        {400, 600, 500, 100},
-        {210, 10, 210, 690},
-        {210, 10, 590, 10},
-        {590, 10, 590, 690},
-        {210, 690, 590, 690},
-    };
-    
-    int *points[n], pointCount[n];
-    for (int i = 0; i < n; i++)
-        points[i] = lines[i].get_line(), pointCount[i] = lines[i].get_count();
+    const int n = 3;
+    int *points[n];
+    int pointCount[n];
 
-    for (int i = 0; i < n; i++)
-    {
-        std::cout << "Line " << i << "\n";
-        lines[i].print_line(pointCount[i] - 10, 10);
-    }
+    Circle circle(400, 400, 300);
+    points[0] = circle.get_circle();
+    pointCount[0] = circle.get_count();
+    Circle circle1 = Circle(400, 400, 100);
+    points[1] = circle1.get_circle();
+    pointCount[1] = circle1.get_count();
+    Circle circle2 = Circle(500, 500, 200);
+    points[2] = circle2.get_circle();
+    pointCount[2] = circle2.get_count();
 
     // render loop
     while (!glfwWindowShouldClose(window))
