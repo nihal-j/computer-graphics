@@ -12,19 +12,23 @@ int main()
     GraphicsEngine engine;
     GLFWwindow* window = engine.window;
 
-    const int n = 3;
+    const int n = 2;
     int *points[n];
     int pointCount[n];
 
-    Circle circle(400, 400, 300);
+    Circle circle(400, 400, 10);
     points[0] = circle.get_circle();
     pointCount[0] = circle.get_count();
-    Circle circle1 = Circle(400, 400, 100);
-    points[1] = circle1.get_circle();
-    pointCount[1] = circle1.get_count();
-    Circle circle2 = Circle(500, 500, 200);
-    points[2] = circle2.get_circle();
-    pointCount[2] = circle2.get_count();
+
+    Line line = Line(408, 408, 450, 450);
+    points[1] = line.get_line();
+    pointCount[1] = line.get_count();
+    // Circle circle1 = Circle(400, 400, 100);
+    // points[1] = circle1.get_circle();
+    // pointCount[1] = circle1.get_count();
+    // Circle circle2 = Circle(500, 500, 200);
+    // points[2] = circle2.get_circle();
+    // pointCount[2] = circle2.get_count();
 
     // render loop
     while (!glfwWindowShouldClose(window))

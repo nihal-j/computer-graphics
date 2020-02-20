@@ -11,6 +11,9 @@ line: line.o
 circle: circle.o
 	$(CC) build/circle.o $(GL_FLAGS) -o circle
 
+tree: tree.o
+	$(CC) build/tree.o $(GL_FLAGS) -o tree
+
 main.o: main.cpp line.o circle.o graphics_engine.o glad.o
 	$(CC) -c -I include main.cpp -o build/main.o
 
@@ -25,6 +28,9 @@ line.o: src/line.cpp
 
 circle.o: src/circle.cpp
 	$(CC) -c -I include src/circle.cpp -o build/circle.o
+
+tree.o: src/tree.cpp
+	$(CC) -c -I include src/tree.cpp -o build/tree.o
 	
 glad.o: include/glad/glad.c
 	$(CC) -c include/glad/glad.c -o build/glad.o
