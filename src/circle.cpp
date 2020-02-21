@@ -1,6 +1,5 @@
 #include <iostream>
 #include "circle.h"
-#include "screen.h"
 
 Circle::Circle(int cX, int cY, int radius)
 {

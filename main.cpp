@@ -2,33 +2,35 @@
 @file
 */
 #include <iostream>
-
+#include <vector>
 #include "circle.h"
-#include "line.h"
 #include "graphics_engine.h"
+#include "line.h"
+#include "tree.h"
 
 int main()
 {
-    GraphicsEngine engine;
+    GraphicsEngine engine = GraphicsEngine();
     GLFWwindow* window = engine.window;
 
-    const int n = 2;
-    int *points[n];
-    int pointCount[n];
+    // engine.load_circle(Circle(50, 400, 10));
+    // engine.load_circle(Circle(250, 50, 10));
 
-    Circle circle(400, 400, 10);
-    points[0] = circle.get_circle();
-    pointCount[0] = circle.get_count();
+    // std::vector<int> treeRep = {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+    std::vector<int> treeRep (128);
+    for (int i = 2; i <= 127; i *= 2)
+        treeRep[i] = 1, treeRep[i - 1] = 1, treeRep[i + 1] = 1, treeRep[i - 2] = 1;
+    treeRep[127] = treeRep[126] = 1;
+    int parity = 0;
+    Tree tree = Tree(treeRep);
+    tree.display_tree_coordinates();
+    std::vector<Circle> nodes = tree.get_nodes();
+    std::vector<Line> edges = tree.get_edges();
+    for (int i = 0; i < nodes.size(); i++)
+        engine.load_circle(nodes[i]);
+    for (int i = 0; i < edges.size(); i++)
+        engine.load_line(edges[i]);
 
-    Line line = Line(408, 408, 450, 450);
-    points[1] = line.get_line();
-    pointCount[1] = line.get_count();
-    // Circle circle1 = Circle(400, 400, 100);
-    // points[1] = circle1.get_circle();
-    // pointCount[1] = circle1.get_count();
-    // Circle circle2 = Circle(500, 500, 200);
-    // points[2] = circle2.get_circle();
-    // pointCount[2] = circle2.get_count();
 
     // render loop
     while (!glfwWindowShouldClose(window))
@@ -41,8 +43,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Drawing happens here.
-        for (int i = 0; i < n; i++)
-            engine.plot_points(points[i], pointCount[i]);
+        engine.draw();
+        // engine.plot_points(points[1], pointCount[1]);
 
         // update window
         glfwSwapBuffers(window);

@@ -1,6 +1,5 @@
 #include <iostream>
 #include "line.h"
-#include "screen.h"
 
 Line::Line(int startX, int startY, int endX, int endY)
 {

@@ -1,23 +1,27 @@
+#include <iostream>
 #include "tree.h"
 
 Tree::Tree(std::vector<int> tree)
 {
-    tRoot = new Node;
+    tRoot = create_node();
     construct(1, tRoot, tree);
     minsep = 5;
     minX = -1, minY = 1, maxX = -1, maxY = 1;
     setup(tRoot, 0, nullptr, nullptr);
+    // traverse(tRoot);
     petrify(tRoot, 0);
+    // traverse(tRoot);
     normalize(tRoot);
+    make_primitives();
 }
 
 void Tree::setup(Node* root, int currentLevel, Extreme* rightMost, Extreme* leftMost)
 {
     Node *l, *r;
-    Extreme* lr = new Extreme; lr -> node = new Node;
-    Extreme* ll = new Extreme; ll -> node = new Node;
-    Extreme* rr = new Extreme; rr -> node = new Node;
-    Extreme* rl = new Extreme; rl -> node = new Node;
+    Extreme* lr = create_extreme();
+    Extreme* ll = create_extreme();
+    Extreme* rr = create_extreme();
+    Extreme* rl = create_extreme();
     int cursep, rootsep, loffsum, roffsum;
 
     if (root == nullptr)
@@ -146,17 +150,17 @@ void Tree::petrify(Node* root, int xpos)
     if (root != nullptr)
     {
         root -> x = xpos;
-        if (maxX == 1)
+        if (maxX == -1)
             maxX = root -> x;
         else
             maxX = std::max(maxX, root -> x);
-        if (minX == 1)
+        if (minX == -1)
             minX = root -> x;
         else
             minX = std::min(minX, root -> x);
         if (root -> thread)
         {
-            root -> thread = false;
+            root -> thread = 0;
             root -> right = nullptr;
             root -> left = nullptr;
         }
@@ -170,17 +174,34 @@ void Tree::construct(int idx, Node* node, std::vector<int> &tree)
     int size = tree.size() - 1;
     if (2*idx <= size && tree[2*idx])
     {
-        Node* newNode = new Node;
-        node -> left = newNode;
-        construct(2*idx, newNode, tree);
+        node -> left = create_node();
+        construct(2*idx, node -> left, tree);
     }
 
     if (2*idx + 1 <= size && tree[2*idx + 1])
     {
-        Node* newNode = new Node;
-        node -> right = newNode;
-        construct(2*idx + 1, newNode, tree);
+        node -> right = create_node();
+        construct(2*idx + 1, node -> right, tree);
     }
+}
+
+Node* Tree::create_node()
+{
+    Node* node = new Node;
+    node -> left = nullptr;
+    node -> right = nullptr;
+    node -> offset = 0;
+    node -> x = node -> y = 0;
+    node -> thread = 0;
+    return node;
+}
+
+Extreme* Tree::create_extreme()
+{
+    Extreme* ext = new Extreme;
+    ext -> node = create_node();
+    ext -> offset = 0;
+    ext -> level = 0;
 }
 
 void Tree::normalize(Node* node)
@@ -188,8 +209,20 @@ void Tree::normalize(Node* node)
     if (node -> left != nullptr)
         normalize(node -> left);
     
-    node -> x = (node -> x - minX) * WIDTH / (maxX - minX);
-    node -> y = (node -> y - minY) * HEIGHT / (maxY - minY);
+    int pad = 50;
+
+    int a = pad;
+    int b = WIDTH - pad;
+    /*
+            x - mx       x' - a
+            -------  =  --------
+            Mx - mx      b - a
+    */
+    node -> x = ((node -> x - minX) * (b - a) / (maxX - minX)) + a;
+
+    a = pad;
+    b = HEIGHT - pad;
+    node -> y = ((node -> y - minY) * (b - a)/ (maxY - minY)) + a;
 
     if (node -> right != nullptr)
         normalize(node -> right);
@@ -209,13 +242,60 @@ void Tree::display_tree_coordinates()
     traverse(tRoot);
 }
 
+void Tree::make_primitives()
+{
+    std::queue<Node*> q;
+    q.push(tRoot);
+
+    int radius = 5;
+
+    while (!q.empty())
+    {
+        Node* curr = q.front();
+        nodes.push_back(Circle(curr -> x, curr -> y, radius));
+        int startX = curr -> x;
+        int startY = curr -> y - radius;
+        int endX, endY;
+        if (curr -> left != nullptr)
+        {
+            endX = curr -> left -> x;
+            endY = curr -> left -> y + radius;
+            edges.push_back(Line(endX, endY, startX, startY));
+            q.push(curr -> left);
+        }
+        if (curr -> right != nullptr)
+        {
+            endX = curr -> right -> x;
+            endY = curr -> right -> y + radius;
+            edges.push_back(Line(startX, startY, endX, endY));
+            q.push(curr -> right);
+        }
+        q.pop();
+    }
+}
+
+std::vector<Circle> Tree::get_nodes()
+{
+    return nodes;
+}
+
+std::vector<Line> Tree::get_edges()
+{
+    return edges;
+}
+
 /* DEBUG
-// */
+// /
 
 int main()
 {
-    std::vector<int> tree = {0, 1, 1, 1, 0, 1, 1, 0, 0, 0};
-    Tree t(tree);
+    std::vector<int> treeRep = {0};
+    for (int i = 1; i <= 100; i++)
+        treeRep.push_back(1);
+    // std::vector<int> treeRep = {0, 1, 1, 1, 1, 1, 1, 1, 1};
+    Tree t(treeRep);
     t.display_tree_coordinates();
     return 0;
 }
+
+// */

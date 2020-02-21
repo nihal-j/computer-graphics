@@ -1,11 +1,10 @@
 #include <iostream>
-
 #include "graphics_engine.h"
-#include "screen.h"
 
 GraphicsEngine::GraphicsEngine()
 {
     window = GraphicsEngine::initialize();
+    pCount = 0;
     return;
 }
 
@@ -109,13 +108,42 @@ void GraphicsEngine::plot_points(const int* points, int pointCount)
     glDrawArrays(GL_POINTS, 0, pointCount); 
 }
 
+void GraphicsEngine::add_primitive(int* points, int pointCount)
+{
+    for (int i = 0; i < pointCount; i++)
+        for (int j = 0; j < 3; j++)
+            primitives[pCount][i*3 + j] = points[i*3 + j];
+    this -> pointCount[pCount++] = pointCount;
+}
+
+void GraphicsEngine::load_line(Line line)
+{
+    int *points = line.get_line();
+    int pointCount = line.get_count();
+    add_primitive(points, pointCount);
+}
+
+void GraphicsEngine::load_circle(Circle circle)
+{
+    int *points = circle.get_circle();
+    int pointCount = circle.get_count();
+    add_primitive(points, pointCount);
+}
+
+void GraphicsEngine::draw()
+{
+    for (int i = 0; i < pCount; i++)
+        plot_points(primitives[i], pointCount[i]);
+}
+
 /* DEBUG
 
 // /
 int main()
 {
     GraphicsEngine gr;
-    gr.window;
+    gr.load_circle(400, 400, 100);
+    gr.draw();
     return 0;
 }
 
