@@ -15,6 +15,13 @@ class GraphicsEngine
         unsigned int shaderProgram;
         ///
         unsigned int vao;
+        ///
+        GLFWwindow* window;
+        /// primitives
+        int primitives[1000][2000];
+        int pointCount[1000];
+        /// primitive count
+        int pCount;
 
         /**
          * @brief Initializes GLFW to make it ready for rendering and processing
@@ -36,18 +43,33 @@ class GraphicsEngine
         const char *vertexShaderSource = 
             "#version 330 core\n"
             "layout (location = 0) in vec3 aPos;\n"
+            "out vec4 color;\n"
             "void main()\n"
             "{\n"
             "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0f);\n"
+            "   color.x = aPos.x;\n"
+            "   color.y = aPos.y;\n"
             "}\n\0";
         
         ///
         const char *fragmentShaderSource = 
             "#version 330 core\n"
             "out vec4 fragColor;\n"
+            "in vec4 color;\n"
             "void main()\n"
             "{\n"
-            "    fragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+            "   fragColor = vec4(0.25f, 0.75f, 0.5f, 1.0f);\n"
+            "}\n\0";
+        
+        const char *creativeFragmentShaderSource = 
+            "#version 330 core\n"
+            "out vec4 fragColor;\n"
+            "in vec4 color;\n"
+            "void main()\n"
+            "{\n"
+            "   float xColor = (color.x + 1.0) / 2.0;\n"
+            "   float yColor = (color.y + 1.0) / 2.0;\n"
+            "   fragColor = vec4(yColor*yColor, xColor*xColor, 0.75f, 1.0f);\n"
             "}\n\0";
 
         /**
@@ -60,41 +82,37 @@ class GraphicsEngine
         void normalize(float &x, float &y, float &z);
         
 
-public:
+    public:
 
-    /**
-     * @brief Construct a new Graphics object.
-     * 
-     */
-    GraphicsEngine();
+        /**
+         * @brief Construct a new Graphics object.
+         * 
+         */
+        GraphicsEngine();
 
-    /**
-     * @brief A callback function to process any I/O done by user
-     * to the current window.
-     * 
-     * @param window pointer to the current window.
-     */
-    void process_input();
+        /**
+         * @brief A callback function to process any I/O done by user
+         * to the current window.
+         * 
+         * @param window pointer to the current window.
+         */
+        void process_input();
 
-    /**
-     * @brief 
-     * 
-     * @param points 
-     * @param pointCount 
-     */
-    void add_primitive(int* points, int pointCount);
-    void load_line(Line line);
-    void load_circle(Circle circle);
-    void plot_points(const int* points, int pointCount);
-    void draw();
-
-    ///
-    GLFWwindow* window;
-    /// primitives
-    int primitives[1000][2000];
-    int pointCount[1000];
-    /// primitive count
-    int pCount;
+        /**
+         * @brief 
+         * 
+         * @param points 
+         * @param pointCount 
+         */
+        void add_primitive(int* points, int pointCount);
+        void load_line(Line line);
+        void load_circle(Circle circle);
+        void plot_points(const int* points, int pointCount);
+        void draw();
+        void set_background_color(float red, float green, float blue, float alpha);
+        void update_window();
+        int close_window();
+        void terminate();
 };
 
 #endif

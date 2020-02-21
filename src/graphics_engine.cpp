@@ -59,7 +59,7 @@ GLFWwindow* GraphicsEngine::initialize()
     glCompileShader(vertexShader);
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &creativeFragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
     shaderProgram = glCreateProgram();
@@ -73,6 +73,28 @@ GLFWwindow* GraphicsEngine::initialize()
     glGenVertexArrays(1, &vao);
 
     return window;
+}
+
+void GraphicsEngine::update_window()
+{
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+}
+
+int GraphicsEngine::close_window()
+{
+    return glfwWindowShouldClose(window);
+}
+
+void GraphicsEngine::terminate()
+{
+    glfwTerminate();
+}
+
+void GraphicsEngine::set_background_color(float red, float green, float blue, float alpha)
+{
+    glClearColor(red, green, blue, alpha);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void GraphicsEngine::normalize(float &x, float &y, float &z)

@@ -7,7 +7,7 @@ Tree::Tree(std::vector<int> tree)
     construct(1, tRoot, tree);
     minsep = 5;
     minX = -1, minY = 1, maxX = -1, maxY = 1;
-    setup(tRoot, 0, nullptr, nullptr);
+    setup(tRoot, 0, create_extreme(), create_extreme());
     // traverse(tRoot);
     petrify(tRoot, 0);
     // traverse(tRoot);
@@ -218,11 +218,17 @@ void Tree::normalize(Node* node)
             -------  =  --------
             Mx - mx      b - a
     */
-    node -> x = ((node -> x - minX) * (b - a) / (maxX - minX)) + a;
+    if (maxX - minX)
+        node -> x = ((node -> x - minX) * (b - a) / (maxX - minX)) + a;
+    else
+        node -> x = WIDTH / 2;
 
     a = pad;
     b = HEIGHT - pad;
-    node -> y = ((node -> y - minY) * (b - a)/ (maxY - minY)) + a;
+    if (maxY - minY)
+        node -> y = ((node -> y - minY) * (b - a)/ (maxY - minY)) + a;
+    else
+        node -> y = HEIGHT / 2;
 
     if (node -> right != nullptr)
         normalize(node -> right);
