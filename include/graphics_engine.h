@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 #include "circle.h"
 #include "line.h"
 #include "screen.h"
@@ -79,6 +80,8 @@ class GraphicsEngine
          * @param y 
          * @param z 
          */
+        void add_primitive(int* points, int pointCount);
+        void plot_points(const int* points, int pointCount);
         void normalize(float &x, float &y, float &z);
         
 
@@ -104,10 +107,8 @@ class GraphicsEngine
          * @param points 
          * @param pointCount 
          */
-        void add_primitive(int* points, int pointCount);
         void load_line(Line line);
         void load_circle(Circle circle);
-        void plot_points(const int* points, int pointCount);
         void draw();
         void set_background_color(float red, float green, float blue, float alpha);
         void update_window();

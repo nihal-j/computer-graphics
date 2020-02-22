@@ -1,0 +1,13 @@
+#!/bin/bash
+
+depth=$1
+imgCnt=$2
+
+# make main
+timestamp=`date +%Y-%m-%d_%H-%M-%S`
+mkdir img/$timestamp"_d_"$depth
+for i in `seq 1 $imgCnt`; do
+    ./main $depth "img/"$timestamp"_d_"$depth"/img"$i".jpg" "img/"$timestamp"_d_"$depth"/log.txt"
+    sleep 1
+    convert "img/"$timestamp"_d_"$depth"/img"$i".jpg" -flip "img/"$timestamp"_d_"$depth"/img"$i".jpg"
+done

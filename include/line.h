@@ -8,7 +8,7 @@ class Line
     private:
         
         ///
-        int points[3000];
+        int points[7000];
         ///
         int pointCount = 0;
         ///

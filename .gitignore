@@ -1,3 +1,6 @@
+*.jpg
+*.txt
+img/
 generator
 a.out
 tmp/

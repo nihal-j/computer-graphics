@@ -1,0 +1,7 @@
+maxDepth=$1
+cnt=$2
+
+make main
+for i in `seq 5 $maxDepth`; do
+    ./batch $i $cnt
+done

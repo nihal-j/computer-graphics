@@ -19,17 +19,33 @@ std::vector<int> random_tree(int depth)
     // depth starts from zero
     tree.push_back(0);
     tree.push_back(1);
-    int cnt = (1 << (depth + 1)) - 2;
-    for (int i = 2; i <= cnt && i/2 < tree.size(); i++)
+    int cnt = (1 << (depth + 1)) - 1;
+    float probability = 0.6f;
+
+    int sign = -1;
+
+    for (int i = 2; i <= cnt; i++)
     {
+        // std::cout << probability << "\n";
         float prob = (float)rand() / RAND_MAX;
-        // std::cout << prob << "\n";
-        if (prob <= 0.5 && tree[i/2])
+        if (prob <= probability && tree[i/2])
             tree.push_back(1);
         else
-            tree.push_back(0);        
+            tree.push_back(0);
+        int t = i, flag = 0;
+        while (t)
+        {
+            if (!(t&1))
+                flag++;
+            t >>= 1;
+        }
+        // if (!flag)
+        //     probability += sign*0.1f;
+        // if (probability <= 0.1f)
+        //     sign = 1;
+        // std::cout << probability << "\n";
     }
-    
+
     return tree;
 }
 

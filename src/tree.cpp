@@ -5,12 +5,10 @@ Tree::Tree(std::vector<int> tree)
 {
     tRoot = create_node();
     construct(1, tRoot, tree);
-    minsep = 5;
+    minsep = 12;
     minX = -1, minY = 1, maxX = -1, maxY = 1;
     setup(tRoot, 0, create_extreme(), create_extreme());
-    // traverse(tRoot);
     petrify(tRoot, 0);
-    // traverse(tRoot);
     normalize(tRoot);
     make_primitives();
 }
@@ -103,23 +101,31 @@ void Tree::setup(Node* root, int currentLevel, Extreme* rightMost, Extreme* left
 
             if ((rl -> level > ll -> level) || (root -> left == nullptr))
             {
-                leftMost = rl;
+                leftMost -> node = rl -> node;
+                leftMost -> level = rl -> level;
+                leftMost -> offset = rl -> offset;
                 leftMost -> offset += root -> offset;
             }
             else
             {
-                leftMost = ll;
+                leftMost -> node = ll -> node;
+                leftMost -> level = ll -> level;
+                leftMost -> offset = ll -> offset;
                 leftMost -> offset -= root -> offset;
             }
 
             if ((lr -> level > rr -> level) || (root -> right == nullptr))
             {
-                rightMost = lr;
+                rightMost -> node = lr -> node;
+                rightMost -> level = lr -> level;
+                rightMost -> offset = lr -> offset;
                 rightMost -> offset -= root -> offset;
             }
             else
             {
-                rightMost = rr;
+                rightMost -> node = rr -> node;
+                rightMost -> level = rr -> level;
+                rightMost -> offset = rr -> offset;
                 rightMost -> offset += root -> offset;
             }
 
@@ -148,8 +154,9 @@ void Tree::setup(Node* root, int currentLevel, Extreme* rightMost, Extreme* left
 void Tree::petrify(Node* root, int xpos)
 {
     if (root != nullptr)
-    {
+    {   
         root -> x = xpos;
+
         if (maxX == -1)
             maxX = root -> x;
         else
@@ -209,8 +216,12 @@ void Tree::normalize(Node* node)
     if (node -> left != nullptr)
         normalize(node -> left);
     
-    int pad = 50;
+    int scale = 500;
+    int pad = 100;
+    int numNodes = (1 << (DEPTH + 1)) - 1;
 
+    // int a = std::max((WIDTH/2) - (numNodes*scale), pad);
+    // int b = std::min((WIDTH/2) + (numNodes*scale), WIDTH - pad);
     int a = pad;
     int b = WIDTH - pad;
     /*
@@ -223,6 +234,11 @@ void Tree::normalize(Node* node)
     else
         node -> x = WIDTH / 2;
 
+
+    int numLevels = DEPTH + 1;
+
+    // a = std::max(pad, (HEIGHT/2) - (numLevels*scale));
+    // b = std::min((HEIGHT/2) + (numLevels*scale), HEIGHT - pad);
     a = pad;
     b = HEIGHT - pad;
     if (maxY - minY)
@@ -241,6 +257,16 @@ void Tree::traverse(Node* node)
     std::cout << node -> x << ", " << node -> y << '\n';
     if (node -> right != nullptr)
         traverse(node -> right);
+}
+
+void Tree::display_leaves(Node* node)
+{
+    if (node -> left != nullptr)
+        display_leaves(node -> left);
+    if (node -> y == 50 || node -> y == -18)
+        std::cout << node -> x << " " << node -> y << "\n";
+    if (node -> right != nullptr)
+        display_leaves(node -> right);
 }
 
 void Tree::display_tree_coordinates()

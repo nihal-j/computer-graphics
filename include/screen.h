@@ -8,9 +8,11 @@
 
 /** Height of the window and viewport.
  */
-static int HEIGHT = 800;
+extern int HEIGHT;
 /** Width of the window and viewport.
  */
-static int WIDTH = 800;
+extern int WIDTH;
+
+extern int DEPTH;
 
 #endif

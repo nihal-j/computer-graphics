@@ -8,6 +8,7 @@
 #include "screen.h"
 #include "types.h"
 
+
 class Tree
 {
     private:
@@ -25,6 +26,7 @@ class Tree
         Node* create_node();
         Extreme* create_extreme();
         void make_primitives();
+        void display_leaves(Node* node);
         
     public:
         Tree(std::vector<int> tree);
