@@ -1,6 +1,6 @@
 /**
  * @file
- * Specification of `Node` and `Extreme` as described in the paper.
+ * @brief Specification of `Node` and `Extreme` as described in the paper.
  */
 
 struct Node

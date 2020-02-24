@@ -1,6 +1,6 @@
 /**
-@file
-Driver file
+* @file
+* @brief Driver file
 */
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 
