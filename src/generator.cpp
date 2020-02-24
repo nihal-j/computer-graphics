@@ -6,7 +6,7 @@ std::vector<int> complete_binary_tree(int depth)
     // depth starts from 0
     std::vector<int> tree = {0};
     int curr = 0;
-    int max = 1 << depth;
+    int max = 1 << (depth + 1);
     for (int i = 1; i < max; i++)
         tree.push_back(1);
     return tree;

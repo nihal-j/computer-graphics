@@ -41,16 +41,16 @@ class Line
          */
         Line(int startX, int startY, int endX, int endY);
         
-        /// 
+        /// Utility function to get points on line (`points`)
         int* get_line()   { return points; }
-        /// 
+        /// Utility function to get number of points on line (`pointCount`)
         int get_count()     { return pointCount; }
 
         /**
-         * @brief 
+         * @brief Utility function to print points of line
          * 
-         * @param startIdx 
-         * @param count 
+         * @param startIdx starting point index
+         * @param count number of points from `startIdx` that need to be printed
          */
         void print_line(int startIdx, int count);
 };

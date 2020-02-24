@@ -12,11 +12,10 @@ class GraphicsEngine
 {
     private:
 
-        ///
         unsigned int shaderProgram;
-        ///
+        /// vertex array object reference number
         unsigned int vao;
-        ///
+        /// GLFW window instance pointer
         GLFWwindow* window;
         /// primitives
         int primitives[1000][2000];
@@ -40,7 +39,7 @@ class GraphicsEngine
          */
         GLFWwindow* initialize();
 
-        /// 
+        /// vertex shader program
         const char *vertexShaderSource = 
             "#version 330 core\n"
             "layout (location = 0) in vec3 aPos;\n"
@@ -52,7 +51,7 @@ class GraphicsEngine
             "   color.y = aPos.y;\n"
             "}\n\0";
         
-        ///
+        /// fragment shader source program (monochrome)
         const char *fragmentShaderSource = 
             "#version 330 core\n"
             "out vec4 fragColor;\n"
@@ -62,6 +61,7 @@ class GraphicsEngine
             "   fragColor = vec4(0.25f, 0.75f, 0.5f, 1.0f);\n"
             "}\n\0";
         
+         /// fragment shader source program (gradient coloring based on `location`)
         const char *creativeFragmentShaderSource = 
             "#version 330 core\n"
             "out vec4 fragColor;\n"
@@ -74,14 +74,27 @@ class GraphicsEngine
             "}\n\0";
 
         /**
-         * @brief 
+         * @brief Utility function to add a primitive
          * 
-         * @param x 
-         * @param y 
-         * @param z 
+         * @param points Tightly packed array of integer coordinates representing the 
+         * primitive
+         * @param pointCount Number of points in `points`
          */
         void add_primitive(int* points, int pointCount);
+        /**
+         * @brief Utility function to plot a primitive
+         * 
+         * @param points Tightly packed array of integer coordinates representing the 
+         * primitive
+         * @param pointCount Number of points in `points`
+         */
         void plot_points(const int* points, int pointCount);
+        /**
+         * @brief Utility function to normalize all points in `points` to [-1, 1]
+         *  range. Normalization is done in place.
+         * 
+         * @param x, y, z coordinates to be normalized
+         */
         void normalize(float &x, float &y, float &z);
         
 
@@ -102,17 +115,45 @@ class GraphicsEngine
         void process_input();
 
         /**
-         * @brief 
+         * @brief Load a Line type object into `primitives`
          * 
-         * @param points 
-         * @param pointCount 
+         * @param line object to be added
          */
         void load_line(Line line);
+        /**
+         * @brief Load a Circle type object into `primitives`
+         * 
+         * @param circle object to be added
+         */
         void load_circle(Circle circle);
+        /**
+         * @brief Load the points from `primitives` into vertex buffers for
+         * plotting
+         * 
+         */
         void draw();
+        /**
+         * @brief Set the background color object
+         * 
+         * @param red, green, blue, alpha Color in RGBA format. All values are in [-1, 1] range
+         */
         void set_background_color(float red, float green, float blue, float alpha);
+        /**
+         * @brief Reverse the plotting buffers and poll for any new events
+         * 
+         */
         void update_window();
+        /**
+         * @brief Check whether the command to terminate window was initiated
+         * 
+         * @return int 1 if window should be closed, 0 otherwise
+         */
         int close_window();
+        /**
+         * @brief Triggers `glfwTerminate()` to neatly clean all OpenGL memory 
+         * allocations
+         * 
+         */
         void terminate();
 };
 

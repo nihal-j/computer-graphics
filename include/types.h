@@ -1,12 +1,8 @@
 /**
  * @file
- * 
+ * Specification of `Node` and `Extreme` as described in the paper.
  */
 
-/**
- * @brief 
- * 
- */
 struct Node
 {
     Node* left;
@@ -16,10 +12,6 @@ struct Node
     int thread;
 };
 
-/**
- * @brief 
- * 
- */
 struct Extreme
 {
     Node* node;
