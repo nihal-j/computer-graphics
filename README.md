@@ -19,11 +19,26 @@ OpenGL (with C++) was used to render the trees after the output was obtained fro
 
 ## Analysis of code
 The execution time here is the time taken to:
-   1. Generate the tree using generator
+   1. Generate the complete tree using generator
    2. Run the algorithm described in paper
    3. Get lines and circles for edges and nodes
 
 Depth of tree | Number of nodes | Execution time
 --- | --- | ---
-*Still* | `renders` | **nicely**
-1 | 2 | 3
+2 |7|0.008s
+3 |15|0.004s
+7 |255|0.074s
+8 |511|0.137s
+9 |1023|0.258s
+10 |2047|0.461s
+11 |4095|0.915s
+12 |8191|1.768s
+13 |16383 |3.446s
+
+For random trees
+
+Depth of tree | Number of nodes | Execution time
+--- | --- | ---
+15 |312|0.06s
+20 |1046|0.35s
+23 |1345|2.00s
