@@ -59,7 +59,7 @@ GLFWwindow* GraphicsEngine::initialize()
     glCompileShader(vertexShader);
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &creativeFragmentShaderSource, NULL);
+    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
     glCompileShader(fragmentShader);
 
     shaderProgram = glCreateProgram();

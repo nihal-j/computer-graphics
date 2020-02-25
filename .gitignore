@@ -1,6 +1,6 @@
 *.jpg
 *.txt
-img/
+archive/
 generator
 a.out
 tmp/
@@ -12,3 +12,4 @@ graphics_engine
 .vscode/
 resources/
 *.pdf
+README.html

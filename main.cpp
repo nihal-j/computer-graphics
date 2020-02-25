@@ -56,9 +56,8 @@ int main(int argc, char* argv[])
     int option = 0;
 
     // FOR BATCH COMMENT BELOW 2 LINES
-    // std::cout << options;
-    // std::cin >> option;
-
+    std::cout << options;
+    std::cin >> option;
 
     std::vector<int> treeRep;
     switch(option)
@@ -99,10 +98,10 @@ int main(int argc, char* argv[])
     }
 
     // FOR BATCH
-    DEPTH = atoi(argv[1]);
+    // DEPTH = atoi(argv[1]);
     // treeRep = complete_binary_tree(depth);
     // treeRep = {0, 1, 1, 0};
-    treeRep = random_tree(DEPTH);
+    // treeRep = random_tree(DEPTH);
     HEIGHT = std::max((DEPTH + 1)*100, 500);
     HEIGHT = std::min(HEIGHT, 1000);
     WIDTH = std::max((1 << DEPTH)*20, 500);
@@ -127,8 +126,8 @@ int main(int argc, char* argv[])
         engine.set_background_color(0.1f, 0.1f, 0.1f, 0.0f);
         // Drawing happens here.
         engine.draw();
-        write_to_file(argv[2], argv[3], treeRep);
-        break;
+        // write_to_file(argv[2], argv[3], treeRep);
+        // break;
         // update window
         engine.update_window();
         // sleep(3);
