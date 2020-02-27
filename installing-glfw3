@@ -1,0 +1,26 @@
+1.
+sudo apt install cmake
+sudo apt install xorg-dev
+sudo apt install libglu1-mesa-dev
+
+2.
+Download GLFW3 from https://www.glfw.org/
+
+3.
+Write a GLFW3 code.
+
+4.
+Command to compile the code. Note that all the libraries mentioned need to be linked.
+$ g++ first.cpp -lglfw3 -lGL -lm -lXrandr -lXi -lX11 -lXxf86vm -lpthread -ldl
+$ ./a.out
+
+5.
+Use GLAD's web service to generate header files for GLAD and copy them to /usr/local/<folder_name> (there are two such folders; add them both).
+Change their permissions.
+$ sudo chmod 777 <foldername>
+
+6.
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+^this should compile now.
