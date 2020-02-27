@@ -1,4 +1,4 @@
-#Tidier Drawings of Trees
+# Tidier Drawings of Trees
 
 The objective of this project is to implement:
 <b>E. M. Reingold and J. S. Tilford. 1981. Tidier Drawings of Trees. IEEE Trans. Softw. Eng. 7, 2 (March 1981), 223–228. </b>
@@ -28,16 +28,16 @@ The following analyses and measurements are done on an <i>8GB</i> memory system 
 
 <i> These images are best viewed in a zoomed in format in a separate window.</i>
 
-Random tree|
-----------
-![Depth 5](img/random_5.jpg)|
-
 Creative coloring|Monochromatic coloring
 -----------------|----------------------
 ![Depth 5](img/complete_tree_5.png)|![Depth 5](img/complete_tree_uncolor_5.png)
 
+Random tree|
+----------:|
+![Depth 5](img/random_5.jpg)|
+
 Bigger trees|
-----------
+----------:|
 ![Depth 21](img/random_21.jpg)|
 
 <hr>
