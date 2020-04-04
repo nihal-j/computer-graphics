@@ -1,14 +1,21 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
+#include "chair.hpp"
+#include "dining.hpp"
+#include "floor.hpp"
 #include "screen.hpp"
+#include "table.hpp"
 
+// screen settings
+extern int WIDTH, HEIGHT;
+// camera settings
 glm::vec3 cameraPos, cameraUp, cameraDir, worldUp;
 // yaw to be initialized
 float yaw = -90.0f, pitch;
 // store for last mouse click coordinates
 int lastX, lastY;
 // field of view angle for perspective projection
-float fov = 45.0f;
+float fov = 45.0f, near = 0.1f, far = 100.0f;
 // various speeds
 float zoomSpeed = 1.0f, panSpeed = 0.2f, dragSpeed = 0.005f;
 
@@ -22,9 +29,9 @@ void animate();
 
 void initializeCamera()
 {
-    cameraPos = {0, 0, 5};
-    cameraUp = {0, 1, 0};
-    cameraDir = {0, 0, -1};
+    cameraPos = {0, 20, 0};
+    cameraUp = {0, 0, 1};
+    cameraDir = {0, -1, 0};
     worldUp = {0, 1, 0};
 }
 
@@ -63,7 +70,7 @@ void resizer(int width, int height)
     glViewport(0, 0, WIDTH, HEIGHT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(fov, (double)WIDTH/HEIGHT, 0.1f, 100.0f);
+    gluPerspective(fov, (double)WIDTH/HEIGHT, near, far);
     glMatrixMode(GL_MODELVIEW);
 }
 
@@ -76,21 +83,15 @@ void renderer()
         cameraDir.x + cameraPos.x, cameraDir.y + cameraPos.y, cameraDir.z + cameraPos.z,
         cameraUp.x, cameraUp.y, cameraUp.z);
 
-    {
-        GLfloat floors[] = 
-        {
-            20, -2, -20,
-            -20, -2, -20,
-            -20, -2, 20,
-            20, -2, 20
-        };
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(3, GL_FLOAT, 0, floors);
-        int f[] = {0, 1, 2, 3}; // white
-        glColor3f(1.0f, 1.0f, 1.0f);
-        glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, f);
-    }
+    draw_floor(-30, 30, 30, -30);
 
+    glPushMatrix();
+    {
+        glTranslatef(20, 0, 20);
+        draw_dining();
+    }
+    glPopMatrix();
+    
     glutSwapBuffers();
 }
 
@@ -125,7 +126,7 @@ void keyHandler(unsigned char key, int x, int y)
                 fov = 45.0f;
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
-            gluPerspective(fov, (double)WIDTH/HEIGHT, 0.1f, 100.0f);
+            gluPerspective(fov, (double)WIDTH/HEIGHT, near, far);
             glMatrixMode(GL_MODELVIEW);
             break;
         }
@@ -138,7 +139,7 @@ void keyHandler(unsigned char key, int x, int y)
                 fov = 1.0f;
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
-            gluPerspective(fov, (double)WIDTH/HEIGHT, 0.1f, 100.0f);
+            gluPerspective(fov, (double)WIDTH/HEIGHT, near, far);
             glMatrixMode(GL_MODELVIEW);
             break;
         }
