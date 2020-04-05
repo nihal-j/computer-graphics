@@ -19,8 +19,7 @@ void Object::draw()
     
     // loading vertices into memory
     glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-    glColor3f(0.878, 0.619, 0.741);     // orange
+    
     for (int i = 0 ; i < faces.size(); i++)
     {
         if (faces[i][3] == -1)
@@ -56,7 +55,7 @@ void Object::draw()
 void Object::load()
 {
     Parser* parser = new Parser;
-    parser -> load_obj("obj/sofas.obj");
+    parser -> load_obj(path);
     vertexCoordinates = parser -> get_vertices();
     faces = parser -> get_faces();
     free(parser);

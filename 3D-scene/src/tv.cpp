@@ -8,8 +8,16 @@ void draw_tv()
         {
             // tv back
             glColor3f(1, 1, 1);
-            // glTranslatef(0, 8, -29);
             glScalef(8, 8, 1);
+            glutSolidCube(2.0);
+        }
+        glPopMatrix();
+        glPushMatrix();
+        {
+            // tv
+            glTranslatef(0, 0, 1);
+            glColor3f(0, 0, 0);
+            glScalef(5, 3, 1);
             glutSolidCube(2.0);
         }
         glPopMatrix();

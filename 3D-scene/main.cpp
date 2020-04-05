@@ -10,6 +10,12 @@
 #include "wall.hpp"
 #include "parser.hpp"
 
+Object sofa = Object("obj/sofas.obj");
+Object tableTop = Object("obj/table_top.obj");
+Object tableBottom = Object("obj/table_bottom.obj");
+Object vase = Object("obj/vase.obj");
+Object plant = Object("obj/plant.obj");
+
 // screen settings
 extern int WIDTH, HEIGHT;
 // camera settings
@@ -21,10 +27,7 @@ int lastX = WIDTH/2, lastY = HEIGHT/2;
 // field of view angle for perspective projection
 float fov = 45.0f, near = 0.1f, far = 200.0f;
 // various speeds
-float zoomSpeed = 1.0f, panSpeed = 0.2f, dragSpeed = 0.005f;
-
-Object sofa = Object("obj/sofas.obj");
-// Object vase = Object("obj/vase.obj");
+float zoomSpeed = 1.0f, panSpeed = 1.0f, dragSpeed = 0.005f;
 
 void renderer();
 void resizer(int, int);
@@ -33,27 +36,7 @@ void specialKeyHandler(int, int, int);
 void clickHandler(int, int, int, int);
 void dragHandler(int, int);
 void animate();
-
-void initializeCamera()
-{
-    // top view
-    // cameraPos = {0, 90, 0};
-    // cameraUp = {0, 0, 1};
-    // cameraDir = {0, -1, 0};
-    // worldUp = {0, 1, 0};
-
-    // front view
-    cameraPos = {0, 10, 90};
-    cameraUp = {0, 1, 0};
-    cameraDir = {0, 0, -1};
-    worldUp = {0, 1, 0};
-
-    // left view
-    // cameraPos = {50, 10, 0};
-    // cameraUp = {0, 1, 0};
-    // cameraDir = {-1, 0, 0};
-    // worldUp = {0, 1, 0};
-}
+void initializeCamera();
 
 void initialize()
 {
@@ -70,11 +53,6 @@ void initialize()
     glutIdleFunc(animate);
 
     initializeCamera();
-}
-
-void load_objects()
-{
-    sofa.load();
 }
 
 void resizer(int width, int height)
@@ -182,6 +160,27 @@ void animate()
     glutPostRedisplay();
 }
 
+void initializeCamera()
+{
+    // top view
+    // cameraPos = {0, 90, 0};
+    // cameraUp = {-1, 0, 0};
+    // cameraDir = {0, -1, 0};
+    // worldUp = {0, 1, 0};
+
+    // front view
+    cameraPos = {0, 10, 90};
+    cameraUp = {0, 1, 0};
+    cameraDir = {0, 0, -1};
+    worldUp = {0, 1, 0};
+
+    // left view
+    // cameraPos = {50, 10, 0};
+    // cameraUp = {0, 1, 0};
+    // cameraDir = {-1, 0, 0};
+    // worldUp = {0, 1, 0};
+}
+
 void renderer()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -196,7 +195,8 @@ void renderer()
 
     glPushMatrix();
     {
-        glTranslatef(20, 0, -20);
+        glTranslatef(18, 0, -20);
+        glScalef(1.3f, 1.3f, 1.3f);
         draw_dining();
     }
     glPopMatrix();
@@ -209,9 +209,47 @@ void renderer()
     }
     glPopMatrix();
 
-    sofa.draw();
+    glPushMatrix();
+    {
+        glColor3f(0.878, 0.619, 0.741);     // pinkish
+        glTranslatef(0, 1.7, 0);
+        sofa.draw();
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(-13, 0, 0);
+        // glRotatef(90, -1, 0, 0);
+        glScalef(0.5f, 0.5f, 0.5f);
+        glColor3f(0.160f, 0.015f, 0.184f);  // dark purple
+        tableTop.draw();
+        glColor3f(1, 1, 1);
+        tableBottom.draw();
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(-25, 2, 22);
+        glScalef(0.5f, 0.5f, 0.5f);
+        glColor3f(1, 0, 0);         // red
+        vase.draw();
+        glColor3f(0, 1, 0);         // green
+        plant.draw();
+    }
+    glPopMatrix();
     
     glutSwapBuffers();
+}
+
+void load_objects()
+{
+    sofa.load();
+    tableTop.load();
+    tableBottom.load();
+    vase.load();
+    plant.load();
 }
 
 int main(int argc, char* argv[])
