@@ -5,6 +5,7 @@
 #include "floor.hpp"
 #include "screen.hpp"
 #include "table.hpp"
+#include "wall.hpp"
 
 // screen settings
 extern int WIDTH, HEIGHT;
@@ -13,9 +14,9 @@ glm::vec3 cameraPos, cameraUp, cameraDir, worldUp;
 // yaw to be initialized
 float yaw = -90.0f, pitch;
 // store for last mouse click coordinates
-int lastX, lastY;
+int lastX = WIDTH/2, lastY = HEIGHT/2;
 // field of view angle for perspective projection
-float fov = 45.0f, near = 0.1f, far = 100.0f;
+float fov = 45.0f, near = 0.1f, far = 200.0f;
 // various speeds
 float zoomSpeed = 1.0f, panSpeed = 0.2f, dragSpeed = 0.005f;
 
@@ -29,9 +30,16 @@ void animate();
 
 void initializeCamera()
 {
-    cameraPos = {0, 20, 0};
-    cameraUp = {0, 0, 1};
-    cameraDir = {0, -1, 0};
+    // top view
+    // cameraPos = {0, 90, 0};
+    // cameraUp = {0, 0, 1};
+    // cameraDir = {0, -1, 0};
+    // worldUp = {0, 1, 0};
+
+    // front view
+    cameraPos = {0, 10, 90};
+    cameraUp = {0, 1, 0};
+    cameraDir = {0, 0, -1};
     worldUp = {0, 1, 0};
 }
 
@@ -84,10 +92,11 @@ void renderer()
         cameraUp.x, cameraUp.y, cameraUp.z);
 
     draw_floor(-30, 30, 30, -30);
-
+    draw_walls(-30, 30, 30, -30, 20);
+    
     glPushMatrix();
     {
-        glTranslatef(20, 0, 20);
+        glTranslatef(20, 0, -20);
         draw_dining();
     }
     glPopMatrix();
