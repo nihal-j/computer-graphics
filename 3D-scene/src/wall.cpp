@@ -38,7 +38,7 @@ void draw_walls(float x1, float z1, float x2, float z2, float ceilHeight)
     // glColor3f(0.988f, 0.976f, 0.450f);  // light yellow
     // glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[2]);
     
-    // ceiling
+    // // ceiling
     // glColor3f(0.780f, 0.705f, 0.619f);  // peach
     // glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[3]);
 

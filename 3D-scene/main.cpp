@@ -4,8 +4,11 @@
 #include "dining.hpp"
 #include "floor.hpp"
 #include "screen.hpp"
+#include "obj.hpp"
 #include "table.hpp"
+#include "tv.hpp"
 #include "wall.hpp"
+#include "parser.hpp"
 
 // screen settings
 extern int WIDTH, HEIGHT;
@@ -19,6 +22,9 @@ int lastX = WIDTH/2, lastY = HEIGHT/2;
 float fov = 45.0f, near = 0.1f, far = 200.0f;
 // various speeds
 float zoomSpeed = 1.0f, panSpeed = 0.2f, dragSpeed = 0.005f;
+
+Object sofa = Object("obj/sofas.obj");
+// Object vase = Object("obj/vase.obj");
 
 void renderer();
 void resizer(int, int);
@@ -41,6 +47,12 @@ void initializeCamera()
     cameraUp = {0, 1, 0};
     cameraDir = {0, 0, -1};
     worldUp = {0, 1, 0};
+
+    // left view
+    // cameraPos = {50, 10, 0};
+    // cameraUp = {0, 1, 0};
+    // cameraDir = {-1, 0, 0};
+    // worldUp = {0, 1, 0};
 }
 
 void initialize()
@@ -60,16 +72,9 @@ void initialize()
     initializeCamera();
 }
 
-int main(int argc, char* argv[])
+void load_objects()
 {
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(WIDTH, HEIGHT);
-
-    glutCreateWindow("Window");
-    initialize();
-
-    glutMainLoop();
+    sofa.load();
 }
 
 void resizer(int width, int height)
@@ -80,28 +85,6 @@ void resizer(int width, int height)
     glLoadIdentity();
     gluPerspective(fov, (double)WIDTH/HEIGHT, near, far);
     glMatrixMode(GL_MODELVIEW);
-}
-
-void renderer()
-{
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glLoadIdentity();
-
-    gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z,
-        cameraDir.x + cameraPos.x, cameraDir.y + cameraPos.y, cameraDir.z + cameraPos.z,
-        cameraUp.x, cameraUp.y, cameraUp.z);
-
-    draw_floor(-30, 30, 30, -30);
-    draw_walls(-30, 30, 30, -30, 20);
-    
-    glPushMatrix();
-    {
-        glTranslatef(20, 0, -20);
-        draw_dining();
-    }
-    glPopMatrix();
-    
-    glutSwapBuffers();
 }
 
 void keyHandler(unsigned char key, int x, int y)
@@ -197,4 +180,50 @@ void dragHandler(int x, int y)
 void animate()
 {
     glutPostRedisplay();
+}
+
+void renderer()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+
+    gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z,
+        cameraDir.x + cameraPos.x, cameraDir.y + cameraPos.y, cameraDir.z + cameraPos.z,
+        cameraUp.x, cameraUp.y, cameraUp.z);
+
+    draw_floor(-30, 30, 30, -30);
+    draw_walls(-30, 30, 30, -30, 20);
+
+    glPushMatrix();
+    {
+        glTranslatef(20, 0, -20);
+        draw_dining();
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(-29, 10, 0);
+        glRotatef(90, 0, 1, 0);
+        draw_tv();
+    }
+    glPopMatrix();
+
+    sofa.draw();
+    
+    glutSwapBuffers();
+}
+
+int main(int argc, char* argv[])
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitWindowSize(WIDTH, HEIGHT);
+
+    glutCreateWindow("Window");
+    initialize();
+
+    load_objects();
+
+    glutMainLoop();
 }
