@@ -2,8 +2,8 @@ CC = g++
 CFLAGS = -g -Wall -I include
 GLUT_FLAGS = -lGL -lGLU -lglut
 
-main: build/main.o build/floor.o build/table.o build/chair.o build/dining.o build/wall.o build/tv.o build/parser.o build/obj.o
-	$(CC) $(CFLAGS) build/floor.o build/table.o build/chair.o build/dining.o build/wall.o build/tv.o build/parser.o build/obj.o build/main.o $(GLUT_FLAGS) -o main
+main: build/main.o build/floor.o build/table.o build/chair.o build/dining.o build/wall.o build/tv.o build/parser.o build/obj.o build/cupboard.o
+	$(CC) $(CFLAGS) build/floor.o build/table.o build/chair.o build/dining.o build/wall.o build/tv.o build/parser.o build/obj.o build/cupboard.o build/main.o $(GLUT_FLAGS) -o main
 
 build/main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp -o build/main.o
@@ -31,3 +31,6 @@ build/parser.o: src/parser.cpp
 
 build/obj.o: src/obj.cpp
 	$(CC) $(CFLAGS) -c src/obj.cpp -o build/obj.o
+
+build/cupboard.o: src/cupboard.cpp
+	$(CC) $(CFLAGS) -c src/cupboard.cpp -o build/cupboard.o

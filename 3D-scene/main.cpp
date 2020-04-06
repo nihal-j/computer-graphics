@@ -1,6 +1,7 @@
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include "chair.hpp"
+#include "cupboard.hpp"
 #include "dining.hpp"
 #include "floor.hpp"
 #include "screen.hpp"
@@ -15,6 +16,12 @@ Object tableTop = Object("obj/table_top.obj");
 Object tableBottom = Object("obj/table_bottom.obj");
 Object vase = Object("obj/vase.obj");
 Object plant = Object("obj/plant.obj");
+Object paint = Object("obj/paint.obj");
+Object paintHolder = Object("obj/paint_holder.obj");
+Object paintThread = Object("obj/paint_thread.obj");
+Object cupboard = Object("obj/cupboard.obj");
+Object cupboardDoor = Object("obj/cupboard_door.obj");
+Object cupboardKnob = Object("obj/cupboard_knob.obj");
 
 // screen settings
 extern int WIDTH, HEIGHT;
@@ -23,7 +30,7 @@ glm::vec3 cameraPos, cameraUp, cameraDir, worldUp;
 // yaw to be initialized
 float yaw = -90.0f, pitch;
 // store for last mouse click coordinates
-int lastX = WIDTH/2, lastY = HEIGHT/2;
+int lastX = WIDTH/2, lastY = HEIGHT/2, start = 0;
 // field of view angle for perspective projection
 float fov = 45.0f, near = 0.1f, far = 200.0f;
 // various speeds
@@ -163,10 +170,10 @@ void animate()
 void initializeCamera()
 {
     // top view
-    // cameraPos = {0, 90, 0};
-    // cameraUp = {-1, 0, 0};
-    // cameraDir = {0, -1, 0};
-    // worldUp = {0, 1, 0};
+    cameraPos = {0, 90, 0};
+    cameraUp = {-1, 0, 0};
+    cameraDir = {0, -1, 0};
+    worldUp = {0, 1, 0};
 
     // front view
     cameraPos = {0, 10, 90};
@@ -175,10 +182,10 @@ void initializeCamera()
     worldUp = {0, 1, 0};
 
     // left view
-    // cameraPos = {50, 10, 0};
-    // cameraUp = {0, 1, 0};
-    // cameraDir = {-1, 0, 0};
-    // worldUp = {0, 1, 0};
+    cameraPos = {50, 10, 0};
+    cameraUp = {0, 1, 0};
+    cameraDir = {-1, 0, 0};
+    worldUp = {0, 1, 0};
 }
 
 void renderer()
@@ -239,6 +246,25 @@ void renderer()
         plant.draw();
     }
     glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(0, 10, -29.7);
+        glScalef(0.5f, 0.5f, 0.5f);
+        glColor3f(0.9f, 0.9f, 0.9f);        // grey
+        paint.draw();
+        glColor3f(0.521f, 0.298f, 0);       // brown
+        paintHolder.draw();
+        paintThread.draw();
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(20, 9.2, 25);
+        draw_cupboard(cupboard, cupboardDoor, cupboardKnob);
+    }
+    glPopMatrix();
     
     glutSwapBuffers();
 }
@@ -250,6 +276,12 @@ void load_objects()
     tableBottom.load();
     vase.load();
     plant.load();
+    paint.load();
+    paintHolder.load();
+    paintThread.load();
+    cupboard.load();
+    cupboardDoor.load();
+    cupboardKnob.load();
 }
 
 int main(int argc, char* argv[])
