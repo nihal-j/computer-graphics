@@ -22,6 +22,8 @@ Object paintThread = Object((char*)"obj/paint_thread.obj");
 Object cupboard = Object((char*)"obj/cupboard.obj");
 Object cupboardDoor = Object((char*)"obj/cupboard_door.obj");
 Object cupboardKnob = Object((char*)"obj/cupboard_knob.obj");
+Object lamp = Object((char*)"obj/lamp.obj");
+std::vector<Object> book, bookCover;
 
 // screen settings
 extern int WIDTH, HEIGHT;
@@ -279,6 +281,52 @@ void renderer()
         draw_cupboard(cupboard, cupboardDoor, cupboardKnob);
     }
     glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(-28, 12, 12);
+        glRotatef(90, 0, 0, -1);
+        glRotatef(90, 1, 0, 0);
+        glRotatef(180, 0, 1, 0);
+        glScalef(0.15f, 0.15f, 0.15f);
+        glColor3f(1, 0, 0);
+        bookCover[0].draw();
+        glColor3f(0.5, 0.5, 0.5);
+        book[0].draw();
+    }
+    glPopMatrix();
+    glPushMatrix();
+    {
+        glTranslatef(-28.0f, 11.5f, 12.7f);
+        glRotatef(90, 0, 0, -1);
+        glRotatef(90, 1, 0, 0);
+        glRotatef(180, 0, 1, 0);
+        glScalef(0.1f, 0.1f, 0.1f);
+        glColor3f(1, 0, 1);
+        bookCover[1].draw();
+        glColor3f(0.5, 0.5, 0.5);
+        book[1].draw();
+    }
+    glPopMatrix();
+    glPushMatrix();
+    {
+        glTranslatef(-11.0f, 5.46f, 5.2f);
+        glScalef(0.1f, 0.2f, 0.1f);
+        glColor3f(0.137f, 0.238f, 0.668f);
+        bookCover[1].draw();
+        glColor3f(0.8, 0.8, 0.8);
+        book[1].draw();
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    {
+        glTranslatef(0, 15.9, 0);
+        glScalef(0.028f, 0.028f, 0.028f);
+        glColor3f(0.894f, 0.788f, 0.305f);
+        lamp.draw();
+    }
+    glPopMatrix();
     
     glutSwapBuffers();
 }
@@ -296,6 +344,15 @@ void load_objects()
     cupboard.load();
     cupboardDoor.load();
     cupboardKnob.load();
+    lamp.load();
+    
+    for (int i = 0; i < 3; i++)
+    {
+        bookCover.push_back(Object((char*)"obj/book_outer.obj"));
+        bookCover[i].load();
+        book.push_back(Object((char*)"obj/book_inner.obj"));
+        book[i].load();
+    }
 }
 
 int main(int argc, char* argv[])
