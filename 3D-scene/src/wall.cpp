@@ -34,13 +34,13 @@ void draw_walls(float x1, float z1, float x2, float z2, float ceilHeight)
     glColor3f(0.988f, 0.976f, 0.450f);  // light yellow
     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[1]);
 
-    // // right wall
-    // glColor3f(0.988f, 0.976f, 0.450f);  // light yellow
-    // glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[2]);
+    // right wall
+    glColor3f(0.988f, 0.976f, 0.450f);  // light yellow
+    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[2]);
     
-    // // ceiling
-    // glColor3f(0.780f, 0.705f, 0.619f);  // peach
-    // glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[3]);
+    // ceiling
+    glColor3f(0.780f, 0.705f, 0.619f);  // peach
+    glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, indices[3]);
 
     // front
     // glColor3f(0.988f, 0.976f, 0.450f);  // light yellow
@@ -69,6 +69,6 @@ void draw_walls(float x1, float z1, float x2, float z2, float ceilHeight)
     };
     glColor3f(0.988f, 0.976f, 0.450f);  // light yellow
     glVertexPointer(3, GL_FLOAT, 0, frontWall);
-    // for (int i = 0; i < 3; i++)
-    //     glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, fIndices[i]);
+    for (int i = 0; i < 3; i++)
+        glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, fIndices[i]);
 }

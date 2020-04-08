@@ -11,24 +11,24 @@
 #include "wall.hpp"
 #include "parser.hpp"
 
-Object sofa = Object("obj/sofas.obj");
-Object tableTop = Object("obj/table_top.obj");
-Object tableBottom = Object("obj/table_bottom.obj");
-Object vase = Object("obj/vase.obj");
-Object plant = Object("obj/plant.obj");
-Object paint = Object("obj/paint.obj");
-Object paintHolder = Object("obj/paint_holder.obj");
-Object paintThread = Object("obj/paint_thread.obj");
-Object cupboard = Object("obj/cupboard.obj");
-Object cupboardDoor = Object("obj/cupboard_door.obj");
-Object cupboardKnob = Object("obj/cupboard_knob.obj");
+Object sofa = Object((char*)"obj/sofas.obj");
+Object tableTop = Object((char*)"obj/table_top.obj");
+Object tableBottom = Object((char*)"obj/table_bottom.obj");
+Object vase = Object((char*)"obj/vase.obj");
+Object plant = Object((char*)"obj/plant.obj");
+Object paint = Object((char*)"obj/paint.obj");
+Object paintHolder = Object((char*)"obj/paint_holder.obj");
+Object paintThread = Object((char*)"obj/paint_thread.obj");
+Object cupboard = Object((char*)"obj/cupboard.obj");
+Object cupboardDoor = Object((char*)"obj/cupboard_door.obj");
+Object cupboardKnob = Object((char*)"obj/cupboard_knob.obj");
 
 // screen settings
 extern int WIDTH, HEIGHT;
 // camera settings
 glm::vec3 cameraPos, cameraUp, cameraRight, cameraDir, worldUp;
 // yaw to be initialized
-float yaw = -90.0f, pitch, roll;
+float yaw = -90.0f, pitch = 0, roll = 0;
 // store for last mouse click coordinates
 int lastX = WIDTH/2, lastY = HEIGHT/2, start = 0;
 // field of view angle for perspective projection
@@ -198,6 +198,8 @@ void initializeCamera()
     // cameraUp = {0, 1, 0};
     // cameraDir = {-1, 0, 0};
     // worldUp = {0, 1, 0};
+
+    yaw = -90.0f, pitch = 0, roll = 0;
 }
 
 void renderer()
@@ -207,11 +209,7 @@ void renderer()
 
     gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z,
         cameraDir.x + cameraPos.x, cameraDir.y + cameraPos.y, cameraDir.z + cameraPos.z,
-        roll, 2.5, 0);
-    // glRotatef(yaw, 1.0, 0.0, 0.0);
-    // glRotatef(-pitch, 0.0, 1.0, 0.0);
-    // glRotatef(roll, 0.0, 0.0, 1.0);
-    // glTranslatef(-cameraPos.x, -cameraPos.y, -cameraPos.z);
+        worldUp.x + roll, worldUp.y + 2.5, 0);
 
     draw_floor(-30, 30, 30, -30);
     draw_walls(-30, 30, 30, -30, 20);
