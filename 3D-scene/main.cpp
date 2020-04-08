@@ -26,9 +26,9 @@ Object cupboardKnob = Object("obj/cupboard_knob.obj");
 // screen settings
 extern int WIDTH, HEIGHT;
 // camera settings
-glm::vec3 cameraPos, cameraUp, cameraDir, worldUp;
+glm::vec3 cameraPos, cameraUp, cameraRight, cameraDir, worldUp;
 // yaw to be initialized
-float yaw = -90.0f, pitch;
+float yaw = -90.0f, pitch, roll;
 // store for last mouse click coordinates
 int lastX = WIDTH/2, lastY = HEIGHT/2, start = 0;
 // field of view angle for perspective projection
@@ -80,20 +80,8 @@ void keyHandler(unsigned char key, int x, int y)
         case 'q':   exit(0);
         case 'w':   { cameraPos += panSpeed*cameraUp; break; }
         case 's':   { cameraPos -= panSpeed*cameraUp; break; }
-        case 'a':
-        {   
-            glm::vec3 cameraRight = glm::cross(cameraDir, cameraUp);
-            cameraRight = glm::normalize(cameraRight);
-            cameraPos -= panSpeed*cameraRight;
-            break;
-        }
-        case 'd':
-        {
-            glm::vec3 cameraRight = glm::cross(cameraDir, cameraUp);
-            cameraRight = glm::normalize(cameraRight);
-            cameraPos += panSpeed*cameraRight;
-            break;
-        }
+        case 'a':   { cameraPos -= panSpeed*cameraRight; break; }
+        case 'd':   { cameraPos += panSpeed*cameraRight; break; }
         case 'x':
         {
             // zoom out
@@ -129,6 +117,30 @@ void specialKeyHandler(int key, int x, int y)
     {
         case GLUT_KEY_UP:       { cameraPos += panSpeed*cameraDir; break; }
         case GLUT_KEY_DOWN:     { cameraPos -= panSpeed*cameraDir; break; }
+        case GLUT_KEY_LEFT:     
+        {
+            roll += 1.0f;
+            float x = cameraRight.x, y = cameraRight.y, z = cameraRight.z;
+            glm::vec3 right;
+            right.x = x*cosf(glm::radians(roll)) - y*sinf(glm::radians(roll));
+            right.y = x*sinf(glm::radians(roll)) + y*cosf(glm::radians(roll));
+            right.z = z;
+            cameraRight = glm::normalize(right);
+            cameraUp = glm::normalize(glm::cross(cameraRight, cameraDir));
+            break; 
+        }
+        case GLUT_KEY_RIGHT:
+        {
+            roll -= 1.0f;
+            float x = cameraRight.x, y = cameraRight.y, z = cameraRight.z;
+            glm::vec3 right;
+            right.x = x*cosf(glm::radians(roll)) - y*sinf(glm::radians(roll));
+            right.y = x*sinf(glm::radians(roll)) + y*cosf(glm::radians(roll));
+            right.z = z;
+            cameraRight = glm::normalize(right);
+            cameraUp = glm::normalize(glm::cross(cameraRight, cameraDir));
+            break; 
+        }
     }
 }
 
@@ -158,7 +170,7 @@ void dragHandler(int x, int y)
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     cameraDir = glm::normalize(direction);
-    glm::vec3 cameraRight = glm::normalize(glm::cross(cameraDir, worldUp));
+    cameraRight = glm::normalize(glm::cross(cameraDir, worldUp));
     cameraUp = glm::normalize(glm::cross(cameraRight, cameraDir));
 }
 
@@ -170,22 +182,22 @@ void animate()
 void initializeCamera()
 {
     // top view
-    cameraPos = {0, 90, 0};
-    cameraUp = {-1, 0, 0};
-    cameraDir = {0, -1, 0};
-    worldUp = {0, 1, 0};
+    // cameraPos = {0, 90, 0};
+    // cameraUp = {-1, 0, 0};
+    // cameraDir = {0, -1, 0};
+    // worldUp = {0, 1, 0};
 
-    // front view
+    // // front view
     cameraPos = {0, 10, 90};
     cameraUp = {0, 1, 0};
     cameraDir = {0, 0, -1};
     worldUp = {0, 1, 0};
 
-    // left view
-    cameraPos = {50, 10, 0};
-    cameraUp = {0, 1, 0};
-    cameraDir = {-1, 0, 0};
-    worldUp = {0, 1, 0};
+    // // left view
+    // cameraPos = {50, 10, 0};
+    // cameraUp = {0, 1, 0};
+    // cameraDir = {-1, 0, 0};
+    // worldUp = {0, 1, 0};
 }
 
 void renderer()
@@ -195,7 +207,11 @@ void renderer()
 
     gluLookAt(cameraPos.x, cameraPos.y, cameraPos.z,
         cameraDir.x + cameraPos.x, cameraDir.y + cameraPos.y, cameraDir.z + cameraPos.z,
-        cameraUp.x, cameraUp.y, cameraUp.z);
+        roll, 2.5, 0);
+    // glRotatef(yaw, 1.0, 0.0, 0.0);
+    // glRotatef(-pitch, 0.0, 1.0, 0.0);
+    // glRotatef(roll, 0.0, 0.0, 1.0);
+    // glTranslatef(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 
     draw_floor(-30, 30, 30, -30);
     draw_walls(-30, 30, 30, -30, 20);
