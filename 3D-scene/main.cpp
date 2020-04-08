@@ -38,11 +38,33 @@ float fov = 45.0f, near = 0.1f, far = 200.0f;
 // various speeds
 float zoomSpeed = 1.0f, panSpeed = 1.0f, dragSpeed = 0.005f;
 
+
 void renderer();
 void resizer(int, int);
+/**
+ * @brief callback to handle keyboard input
+ * 'w': move along +up
+ * 's': move along -up
+ * 'a': move along +right
+ * 'd': move along -right
+ * 'z': zoom in
+ * 'x': zoom out
+ */
 void keyHandler(unsigned char, int, int);
+/**
+ * @brief callback to handle special keys
+ * 'up': move along +normal
+ * 'down': move along -normal
+ * 'left': roll along -normal
+ * 'right': roll along +normal
+ */
 void specialKeyHandler(int, int, int);
 void clickHandler(int, int, int, int);
+/**
+ * @brief callback to handle mouse drag.
+ * horizontal drag: yaw
+ * vertical drag: pitch
+ */
 void dragHandler(int, int);
 void animate();
 void initializeCamera();
@@ -223,7 +245,6 @@ void renderer()
         draw_dining();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(-29, 10, 0);
@@ -231,7 +252,6 @@ void renderer()
         draw_tv();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glColor3f(0.878, 0.619, 0.741);     // pinkish
@@ -239,7 +259,6 @@ void renderer()
         sofa.draw();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(-13, 0, 0);
@@ -251,7 +270,6 @@ void renderer()
         tableBottom.draw();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(-25, 2, 22);
@@ -262,7 +280,6 @@ void renderer()
         plant.draw();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(0, 10, -29.7);
@@ -274,14 +291,12 @@ void renderer()
         paintThread.draw();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(20, 9.2, 25);
         draw_cupboard(cupboard, cupboardDoor, cupboardKnob);
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(-28, 12, 12);
@@ -318,7 +333,6 @@ void renderer()
         book[1].draw();
     }
     glPopMatrix();
-
     glPushMatrix();
     {
         glTranslatef(0, 15.9, 0);
@@ -331,6 +345,7 @@ void renderer()
     glutSwapBuffers();
 }
 
+// load data into object variables from .obj files
 void load_objects()
 {
     sofa.load();
