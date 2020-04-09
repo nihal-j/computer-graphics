@@ -1,5 +1,7 @@
 3D-scene/tmp
 3D-scene/resources
+3D-scene/doc
+3D-scene/doxygen_config
 examples/
 *.txt
 archive/

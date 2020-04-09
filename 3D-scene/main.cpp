@@ -1,3 +1,7 @@
+/**
+ * @file main.cpp
+ * @brief Main driver file
+ */
 #include <GL/glut.h>
 #include <glm/glm.hpp>
 #include "chair.hpp"
