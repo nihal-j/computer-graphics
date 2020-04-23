@@ -79,6 +79,7 @@ void Image::to_file(std::string path)
 	{
 		for (int x = 0; x < width; x++)
 		{
+            // bitmap images have first coordinate varying along columns
 			char red = static_cast<char>(this -> red[x][y]);
 			char green = static_cast<char>(this -> green[x][y]);
 			char blue = static_cast<char>(this -> blue[x][y]);
