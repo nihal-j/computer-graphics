@@ -1,3 +1,4 @@
+#include <iostream>
 #include "image.hpp"
 #include "color.hpp"
 
@@ -17,10 +18,16 @@ int main()
             unsigned char vB = static_cast<unsigned char>(v*255.0);
 
             color.setHSV(hB, sB, vB);
-            img.set_pixel(x, y, color.getRed(), color.getBlue(), color.getGreen());
+            img.setPixel(x, y, color);
+            // img.set_pixel(x, y, color.getRed(), color.getBlue(), color.getGreen());
         }
     }
 
-    img.to_file("img/img_hsv.bmp");
+    img.toFile("img_hsv.bmp");
+
+    // Color c2;
+    // c2.setHSV(180.0, 1.0, 1.0);
+    // std::cout << +c2.getRed() << " " << +c2.getGreen() << " " << +c2.getBlue() << "\n";
+
     return 0;
 }

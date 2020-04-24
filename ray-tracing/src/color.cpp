@@ -1,5 +1,4 @@
 #include "color.hpp"
-#include <cmath>
 
 Color::Color()
 {
@@ -27,13 +26,73 @@ void Color::setHSV(unsigned char hue, unsigned char saturation, unsigned char va
     computeRGB();
 }
 
+void Color::setRGB(double red, double green, double blue)
+{
+    this -> red = red;
+    this -> green = green;
+    this -> blue = blue;
+    computeHSV();
+}
+
+void Color::setHSV(double hue, double saturation, double value)
+{
+    this -> hue = hue;
+    this -> saturation = saturation;
+    this -> value = value;
+    computeRGB();
+}
+
 void Color::computeHSV()
 {
-    
+    int index;
+    double mx, mn;
+
+    if (red == green && red == blue)
+    {
+        index = 0;
+        mx = red;
+        mn = red;
+    }
+    else if (red > green && red > blue)
+    {
+        index = 1;
+        mx = red;
+        mn = std::min(blue, green);
+    }
+    else if (green > blue && green > red)
+    {
+        index = 2;
+        mx = green;
+        mn = std::min(red, blue);
+    }
+    else
+    {
+        index = 3;
+        mx = blue;
+        mn = std::min(red, green);
+    }
+
+    double h;
+    switch(index)
+    {
+        case 0:     h = 0; break;
+        case 1:     h = 60.0 * (green - blue) / (mx - mn); break;
+        case 2:     h = 60.0 * (2 + ((blue - red) / (mx - mn))); break;
+        case 3:     h = 60.0 * (4 + ((red - green) / (mx - mn))); break;
+    }
+
+    double s = (index == 0) ? 0.0 : (mx - mn)/mx;
+    double v = mx;
+
+    hue = h;
+    saturation = s;
+    value = v;    
 }
 
 void Color::computeRGB()
 {
+    // algorithm from Wikipedia
+    
     double c = saturation*value;
     double hue_ = hue/60.0;
     double x1 = fmod(hue_, 1.0);
@@ -83,7 +142,10 @@ void Color::computeRGB()
     }
 
     double m = value - c;
+
     red += m;
     green += m;
     blue += m;
+
+    // std::cout << static_cast<unsigned char>(static_cast<int>(green * 255.0)) << "\n";
 }

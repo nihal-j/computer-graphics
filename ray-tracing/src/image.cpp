@@ -7,9 +7,11 @@ Image::Image(const int width, const int height)
     red.resize(width, std::vector<unsigned char>(height, 0));
     blue.resize(width, std::vector<unsigned char>(height, 0));
     green.resize(width, std::vector<unsigned char>(height, 0));
+
+	dpi = 300;
 }
 
-int Image::set_pixel(int x, int y, unsigned char red, unsigned char blue, unsigned char green)
+int Image::setPixel(int x, int y, unsigned char red, unsigned char blue, unsigned char green)
 {
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
@@ -21,7 +23,30 @@ int Image::set_pixel(int x, int y, unsigned char red, unsigned char blue, unsign
     return -1;
 }
 
-void Image::to_file(std::string path)
+int Image::setPixel(int x, int y, Color color)
+{
+	if (x >= 0 && x < width && y >= 0 && y < height)
+    {
+        this -> red[x][y] = color.getRed();
+        this -> blue[x][y] = color.getBlue();
+        this -> green[x][y] = color.getGreen();
+        return 0;
+    }
+    return -1;
+}
+
+void Image::getSize(int &x, int &y)
+{
+	x = width;
+	y = height;
+}
+
+void Image::setDPI(int dpi)
+{
+	this -> dpi = dpi;
+}
+
+void Image::toFile(std::string path)
 {
     std::ofstream file(path, std::ios::out | std::ios::binary);
 
@@ -29,7 +54,7 @@ void Image::to_file(std::string path)
 	int dataSize = width*height*3 + height*padSize;
 	int headSize = 54;
 	int totalSize = dataSize + headSize;
-	int pixelsPerMeter = 1;
+	int pixelsPerMeter = static_cast<int>(100.0 * (static_cast<float>(dpi) / 2.54));
 
 	// Form the header.
 	char head[54] = 
@@ -58,8 +83,6 @@ void Image::to_file(std::string path)
 		static_cast<char>(dataSize >> 8),
 		static_cast<char>(dataSize >> 16), 
 		static_cast<char>(dataSize >> 24),
-		//1, 0, 0, 0, // X resolution (pixels per meter),
-		//1, 0, 0, 0, // Y resolution (pixels per meter),
 		static_cast<char>(pixelsPerMeter),			// X resolution (pixels per meter)
 		static_cast<char>(pixelsPerMeter >> 8),
 		static_cast<char>(pixelsPerMeter >> 16),
@@ -88,6 +111,7 @@ void Image::to_file(std::string path)
 			file.write(&green, 1);
 			file.write(&red, 1);
 		}
+		// at the end of each row, add padding
 		file.write(pad, padSize);
 	}
 
