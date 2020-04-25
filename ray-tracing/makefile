@@ -1,23 +1,20 @@
 CC = g++
-CFLAGS = -g -Wall -I include
+CFLAGS = -Wall -I include
 
-main: build/main.o build/image.o build/color.o build/vector3.o
-	$(CC) $(CFLAGS) build/image.o build/color.o build/vector3.o build/main.o -o main
+target = main
 
-build/main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp -o build/main.o
+objects = build/main.o build/image.o build/color.o build/vector3.o
 
-test: build/test.o build/image.o build/color.o build/vector3.o
-	$(CC) $(CFLAGS) build/image.o build/color.o build/vector3.o build/test.o -o test
+$(target): $(objects)
+	$(CC) $(CFLAGS) $(objects) -o $(target)
 
-build/test.o: test.cpp
-	$(CC) $(CFLAGS) -c test.cpp -o build/test.o
+build/%.o: src/%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@
 
-build/image.o: src/image.cpp
-	$(CC) $(CFLAGS) -c src/image.cpp -o build/image.o
+clean:
+	rm $(target) $(objects)
 
-build/color.o: src/color.cpp
-	$(CC) $(CFLAGS) -c src/color.cpp -o build/color.o
-
-build/vector3.o: src/vector3.cpp
-	$(CC) $(CFLAGS) -c src/vector3.cpp -o build/vector3.o
+build/main.o: include/color.hpp include/image.hpp include/vector3.hpp
+build/image.o: include/image.hpp include/color.hpp
+build/color.o: include/color.hpp
+build/vector3.o: include/vector3.hpp
