@@ -1,3 +1,6 @@
+ray-tracing/build/test.o
+ray-tracing/test
+ray-tracing/test.cpp
 3D-scene/tmp
 3D-scene/resources
 3D-scene/doc
