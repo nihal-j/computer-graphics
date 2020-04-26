@@ -150,7 +150,7 @@ Vector3 Vector3::cross(const Vector3& a, const Vector3 &b)
     return result;
 }
 
-Vector3 operator+(const double &lhs, const Vector3 rhs)
+Vector3 operator+(const double &lhs, const Vector3& rhs)
 {
     Vector3 result;
     result.x = lhs + rhs.x;
@@ -159,7 +159,7 @@ Vector3 operator+(const double &lhs, const Vector3 rhs)
     return result;
 }
 
-Vector3 operator-(const double &lhs, const Vector3 rhs)
+Vector3 operator-(const double &lhs, const Vector3& rhs)
 {
     Vector3 result;
     result.x = lhs - rhs.x;
@@ -168,7 +168,7 @@ Vector3 operator-(const double &lhs, const Vector3 rhs)
     return result;
 }
 
-Vector3 operator*(const double &lhs, const Vector3 rhs)
+Vector3 operator*(const double &lhs, const Vector3& rhs)
 {
     Vector3 result;
     result.x = lhs * rhs.x;
