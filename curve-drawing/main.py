@@ -32,6 +32,10 @@ def onclick(event):
         X = np.delete(X, delidx)
         Y = np.delete(Y, delidx)
 
+    if move_state == 3:
+        move_state = 0
+        return
+
     if move_state == 2:
         delidx = is_plotted(x, y)
         mov_idx = delidx
@@ -93,7 +97,6 @@ def onmouse(event):
             plt.draw()
 
         if move_state == 3:
-            hovered, = plt.plot(x, y, marker='.', color='green', ms=20, alpha=0.3)
             X = np.delete(X, mov_idx)
             Y = np.delete(Y, mov_idx)
             X = np.insert(X, mov_idx, x)
@@ -101,6 +104,7 @@ def onmouse(event):
             bX, bY = bezier.compute_bezier_curve(X, Y, numberOfPoints=10000)
             plt.clf()
             plt.autoscale(False)
+            hovered, = plt.plot(x, y, marker='.', color='green', ms=20, alpha=0.3)
             plt.plot(X, Y, color='red', alpha=0.3, marker='.', ms=10, mfc='green')
             plt.scatter(bX, bY, s=0.05)
             plt.draw()
