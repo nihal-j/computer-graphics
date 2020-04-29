@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import bezier
 
+# some global variables needed for point caching etc.
 X = np.array([])
 Y = np.array([])
 fig, ax = plt.subplots(figsize=(10, 8))
@@ -11,6 +12,10 @@ mov_idx = -1
 hovered = None
 
 def is_plotted(x, y):
+    '''
+        Method to check if the point (x, y) is already plotted. Checks for (x, y) in a certain threshold
+        of epsilon.
+    '''
     global X, Y
     n = len(X)
     epsilon = 1e-2
@@ -23,6 +28,9 @@ def is_plotted(x, y):
     return -1
 
 def onclick(event):
+    '''
+        Handler for mouse click event.
+    '''
     global X, Y, ax, fig, delete_state, move_state, mov_idx, hovered
     x = event.xdata
     y = event.ydata
@@ -55,6 +63,9 @@ def onclick(event):
     plt.draw()
 
 def onkey(event):
+    '''
+        Handler for key press event.
+    '''
     global X, Y, ax, fig, delete_state, move_state, mov_idx, hovered
     # print(event.key, event.xdata, event.ydata)
     if (event.key == 'x'):
@@ -66,6 +77,9 @@ def onkey(event):
         delete_state = 0
 
 def onmouse(event):
+    '''
+        Handler for mouse movement event.
+    '''
     global X, Y, ax, fig, delete_state, move_state, mov_idx, hovered
 
     if hovered != None:
@@ -109,9 +123,14 @@ def onmouse(event):
             plt.scatter(bX, bY, s=0.05)
             plt.draw()
 
-bezier.compute_pascal_triangle()
-fig.canvas.mpl_connect('button_press_event', onclick)
-fig.canvas.mpl_connect('key_press_event', onkey)
-plt.connect('motion_notify_event', onmouse)
+if __name__ == '__main__':
 
-plt.show()
+    # first compute the pascal triangle
+    bezier.compute_pascal_triangle()
+
+    # start recording input events
+    fig.canvas.mpl_connect('button_press_event', onclick)
+    fig.canvas.mpl_connect('key_press_event', onkey)
+    plt.connect('motion_notify_event', onmouse)
+
+    plt.show()

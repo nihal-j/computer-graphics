@@ -3,6 +3,9 @@ import numpy as np
 pascal = np.zeros((1000, 1000), dtype=np.int64)
 
 def compute_bezier_curve(X, Y, numberOfPoints=1000):
+    '''
+        Finds the bezier curve for several points using de castlejau's algorithm.
+    '''
     global pascal
     n = len(X) - 1
     bX = np.zeros(numberOfPoints)
@@ -26,6 +29,9 @@ def compute_bezier_curve(X, Y, numberOfPoints=1000):
     return bX, bY
 
 def compute_pascal_triangle(n=50):
+    '''
+        Utility function to calculate the pascal triangle.
+    '''
     global pascal
     pascal[0][0] = 1
     for i in range(n + 1):
