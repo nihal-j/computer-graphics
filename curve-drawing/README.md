@@ -7,7 +7,7 @@ The objective of this project is to:
     -- Existing points can be deleted.
     -- Existing points can be dragged around.
 
-# Usage
+## Usage
 
 1. Clone the repository locally.
 2. Change the current working directory to the repository.
@@ -42,3 +42,7 @@ Key|Function
 ---|------
 X|Toggle delete point state
 M|Toggle move point state
+
+## Demonstration
+
+<img src="img/demo.gif"></img>
