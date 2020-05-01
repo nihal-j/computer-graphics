@@ -1,33 +1,36 @@
 #include <iostream>
+#include <cmath>
+#include "camera.hpp"
 #include "image.hpp"
-#include "color.hpp"
+#include "sphere.hpp"
+#include "scene.hpp"
+
+using namespace std;
 
 int main()
 {
-    Image img(640, 480);
-    Color color;
-    for (int y = 0; y < 480; y++)
-    {
-        for (int x = 0; x < 640; x++)
-        {
-            double h = x/640.0, s = y/480.0;
-            double v = 1.0;
+    // define a camera
+    Camera camera;
+    camera.setPosition(Vector3(0.0, -10.0, 0.0));
+    camera.setLookAt(Vector3(0.0, 0.0, 0.0));
+    camera.setLength(1.5);
+    camera.setUp(Vector3(0.0, 0.0, 1.0));
+    camera.updateCamera();
 
-            unsigned char hB = static_cast<unsigned char>(h*255.0);
-            unsigned char sB = static_cast<unsigned char>(s*255.0);
-            unsigned char vB = static_cast<unsigned char>(v*255.0);
+    // define an object
+    Sphere sphere = Sphere(Vector3(0.0, 0.0, 0.0), 0.5);
 
-            color.setHSV(hB, sB, vB);
-            img.setPixel(x, y, color);
-            // img.set_pixel(x, y, color.getRed(), color.getBlue(), color.getGreen());
-        }
-    }
+    // create the scene
+    Scene scene;
+    scene.addCamera(camera);
+    scene.addObject(&sphere);
 
-    img.toFile("img_hsv.bmp");
-
-    // Color c2;
-    // c2.setHSV(180.0, 1.0, 1.0);
-    // std::cout << +c2.getRed() << " " << +c2.getGreen() << " " << +c2.getBlue() << "\n";
+    // create an Image
+    Image img(1920, 1080);
+    
+    // render into the image
+    scene.render(&img);
+    img.toFile("rendered.bmp");
 
     return 0;
 }
