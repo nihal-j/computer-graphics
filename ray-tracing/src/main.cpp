@@ -18,12 +18,15 @@ int main()
     camera.updateCamera();
 
     // define an object
-    Sphere sphere = Sphere(Vector3(0.0, 0.0, 0.0), 0.5);
+    Sphere sphere = Sphere(Vector3(-0.5, 0.0, 0.0), 0.25);
+    sphere.setBaseColor(Color(0.2, 0.5, 0.8));
+    Sphere sphere1 = Sphere(Vector3(0.5, 0.0, 0.0), 0.25);
 
     // create the scene
     Scene scene;
     scene.addCamera(camera);
     scene.addObject(&sphere);
+    scene.addObject(&sphere1);
 
     // create an Image
     Image img(1920, 1080);

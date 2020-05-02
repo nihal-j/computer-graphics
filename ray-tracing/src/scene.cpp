@@ -56,6 +56,7 @@ bool Scene::render(Image* img)
 
             // update the color of the pixel
             img -> setPixel(x, y, pixelColor);
+            // std::cout << +pixelColor.getRed() << " " << +pixelColor.getBlue() << " " << +pixelColor.getGreen() << "\n";
         }
     }
     std::cout << "Minimum distance: " << minDist << "\n";
@@ -76,12 +77,10 @@ Color Scene::computeColor(Ray castRay, double* distance)
 
     if (hitFlag)
     {
-        *distance = dist;
-        outputColor.setHSV(54.0, 1.0, (1 - ((dist/10.0) - 0.95)/0.05));
+        outputColor = localColor;
     }
     else
     {
-        *distance = 1000.0;
         outputColor.setHSV(0.0, 0.0, 0.0);
     }
     return outputColor;
@@ -107,6 +106,7 @@ bool Scene::findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 
                 minDist = distance_;
                 *intersection = intersection_;
                 *color = color_;
+                // std::cout << +color_.getRed() << " " << +color_.getGreen() << " " << +color_.getBlue() << "\n";
                 *normal = normal_;
                 *distance = distance_;
                 *objIndex = i;

@@ -13,6 +13,8 @@ class Color
     public:
         // default constructor
         Color();
+        // RGB based constructor
+        Color(double red, double green, double blue);
 
         // Set the RGB values of the color. Accepts 0..255
         void setRGB(unsigned char red, unsigned char blue, unsigned char green);

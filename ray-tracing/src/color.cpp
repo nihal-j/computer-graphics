@@ -10,6 +10,14 @@ Color::Color()
     value = 0.0;
 }
 
+Color::Color(double red, double green, double blue)
+{
+    this -> red = red;
+    this -> green = green;
+    this -> blue = blue;
+    computeHSV();
+}
+
 void Color::setRGB(unsigned char red, unsigned char blue, unsigned char green)
 {
     // take the byte values and convert to 0..1

@@ -11,8 +11,11 @@ Sphere::Sphere(Vector3 center, double radius)
     this -> radius = radius;
     this -> radius2 = radius*radius;
     baseColor = Color();
-    baseColor.setRGB(0.0, 0.0, 0.0);
+    baseColor.setRGB(1.0, 0.0, 0.0);
+    // std::cout << +baseColor.getRed() << " " << +baseColor.getGreen() << " " << +baseColor.getBlue() << "\n";
+    // std::cout << +baseColor.getHue() << " " << +baseColor.getSaturation() << " " << +baseColor.getValue() << "\n";
     updateBaseColor();
+    // std::cout << baseHue << " " << baseSat << " " << baseValue << "\n";
 }
 
 Sphere::~Sphere()
@@ -89,6 +92,7 @@ bool Sphere::testIntersection(const Ray castRay, Vector3 *intersection, Vector3 
 
         // return the color of the point
         color -> setHSV(baseHue, baseSat, baseValue);
+        // std::cout << baseHue << " " << baseSat << " " << baseValue << "\n";
 
         return true;
         
@@ -102,7 +106,7 @@ bool Sphere::testIntersection(const Ray castRay, Vector3 *intersection, Vector3 
 
 void Sphere::updateBaseColor()
 {
-    baseHue = baseColor.getHue();
-    baseSat = baseColor.getSaturation();
-    baseValue = baseColor.getValue();
+    baseHue = (baseColor.getHue() / 255.0) * 360.0;
+    baseSat = baseColor.getSaturation() / 255.0;
+    baseValue = baseColor.getValue() / 255.0;
 }
