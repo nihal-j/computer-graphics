@@ -12,6 +12,7 @@ Color::Color()
 
 void Color::setRGB(unsigned char red, unsigned char blue, unsigned char green)
 {
+    // take the byte values and convert to 0..1
     this -> red = static_cast<double>(red) / 255.0; 
     this -> blue = static_cast<double>(blue) / 255.0; 
     this -> green = static_cast<double>(green) / 255.0;
@@ -20,6 +21,7 @@ void Color::setRGB(unsigned char red, unsigned char blue, unsigned char green)
 
 void Color::setHSV(unsigned char hue, unsigned char saturation, unsigned char value)
 {
+    // take the byte values and convert to 0..1 (except hue which is to 0..360)
     this -> hue = static_cast<double>(hue) / 255.0 * 360.0;
     this -> saturation = static_cast<double>(saturation) / 255.0;
     this -> value = static_cast<double>(value) / 255.0;
@@ -28,22 +30,27 @@ void Color::setHSV(unsigned char hue, unsigned char saturation, unsigned char va
 
 void Color::setRGB(double red, double green, double blue)
 {
+    // set values directly to 0..1
     this -> red = red;
     this -> green = green;
     this -> blue = blue;
+    // convert to HSV
     computeHSV();
 }
 
 void Color::setHSV(double hue, double saturation, double value)
 {
+    // set values directly to 0..1 (except hue which is 0..360)
     this -> hue = hue;
     this -> saturation = saturation;
     this -> value = value;
+    // convert to RGB
     computeRGB();
 }
 
 void Color::computeHSV()
 {
+    // convert RGB to HSV
     int index;
     double mx, mn;
 
@@ -91,6 +98,7 @@ void Color::computeHSV()
 
 void Color::computeRGB()
 {
+    // convert to RGB
     // algorithm from Wikipedia
     
     double c = saturation*value;
@@ -146,6 +154,4 @@ void Color::computeRGB()
     red += m;
     green += m;
     blue += m;
-
-    // std::cout << static_cast<unsigned char>(static_cast<int>(green * 255.0)) << "\n";
 }

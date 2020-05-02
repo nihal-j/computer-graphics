@@ -8,33 +8,37 @@
 
 class Image
 {
-    public:
-        Image(const int width, const int height);
+public:
+    // constructor to make new image of `width`*`height`
+    Image(const int width, const int height);
 
-        // methods to set the pixel color in an image
-        int setPixel(int x, int y, unsigned char red, unsigned char blue, unsigned char green);
-        int setPixel(int x, int y, Color color);
+    // methods to set the pixel color in an image
+    int setPixel(int x, int y, unsigned char red, unsigned char blue, unsigned char green);
+    int setPixel(int x, int y, Color color);
 
-        // method to set dpi
-        void setDPI(int dpi);
+    // method to set dpi
+    void setDPI(int dpi);
 
-        // method to create a bitmap image from the channel arrays
-        void toFile(std::string path);
+    // method to create a bitmap image from the channel arrays
+    void toFile(std::string path);
 
-        // method to get size of the image
-        void getSize(int &x, int &y);
+    // method to get size of the image
+    void getSize(int &x, int &y);
 
 
-    private:
-        std::vector<std::vector<char unsigned>> red;
-        std::vector<std::vector<char unsigned>> blue;
-        std::vector<std::vector<char unsigned>> green;
-
-        int width;
-        int height;
-
-        // dots per inch
-        int dpi;
+private:
+    // the red channel
+    std::vector<std::vector<char unsigned>> red;
+    // the blue channel
+    std::vector<std::vector<char unsigned>> blue;
+    // the green channel
+    std::vector<std::vector<char unsigned>> green;
+    // width of image
+    int width;
+    // height of image
+    int height;
+    // dots per inch of the image
+    int dpi;
 
 };
 

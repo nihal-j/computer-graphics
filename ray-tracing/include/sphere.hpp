@@ -21,19 +21,23 @@ public:
     virtual bool testIntersection(const Ray castRay, Vector3 *intersection, Vector3 *normal, Color *color, double *distance) override;
 
 private:
-    void updateGeometry();
+    // takes color from `baseColor` and stores into redundant variables
     void updateBaseColor();
 
 private:
+    // center of the sphere
     Vector3 center;
+    // radius of the sphere
     double radius;
-    double radius2;     // radius sqaured
+    // radius squared - redundant variable to avoid recomputation
+    double radius2;     
+    // color of the sphere
     Color baseColor;
 
+    // representation of the color in redundant variables
     double baseValue;
     double baseHue;
     double baseSat;
-
 };
 
 #endif

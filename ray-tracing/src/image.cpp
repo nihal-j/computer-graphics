@@ -15,11 +15,14 @@ int Image::setPixel(int x, int y, unsigned char red, unsigned char blue, unsigne
 {
     if (x >= 0 && x < width && y >= 0 && y < height)
     {
+		// pixel coordinates are inside the image
         this -> red[x][y] = red;
         this -> blue[x][y] = blue;
         this -> green[x][y] = green;
         return 0;
     }
+
+	// pixel coordinates are outside the image
     return -1;
 }
 
@@ -27,11 +30,14 @@ int Image::setPixel(int x, int y, Color color)
 {
 	if (x >= 0 && x < width && y >= 0 && y < height)
     {
+		// pixel coordinates are inside the image
         this -> red[x][y] = color.getRed();
         this -> blue[x][y] = color.getBlue();
         this -> green[x][y] = color.getGreen();
         return 0;
     }
+
+	// pixel coordinates are outside the image
     return -1;
 }
 
@@ -114,6 +120,5 @@ void Image::toFile(std::string path)
 		// at the end of each row, add padding
 		file.write(pad, padSize);
 	}
-
 	file.close();
 }

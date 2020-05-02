@@ -3,13 +3,21 @@
 
 #include "vector3.hpp"
 
+/**
+ * @brief class Ray is used to simulate a ray from `src` to `dest`.
+ */
 class Ray
 {
-    public:
-        Vector3 src;
-        Vector3 dest;
-        Vector3 direction;
-        Ray(Vector3 &src, Vector3 &dst);
+public:
+    // src point of this ray
+    Vector3 src;
+    // destinatiion point of this ray
+    Vector3 dest;
+    // direction vector of this ray ( = dest - src)
+    Vector3 direction;
+
+    // constructor to setup the ray from `src` to `dst`.
+    Ray(Vector3 &src, Vector3 &dst);
 };
 
 #endif

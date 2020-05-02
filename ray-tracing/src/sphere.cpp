@@ -2,7 +2,7 @@
 
 Sphere::Sphere()
 {
-
+    // no setup for the default constructor
 }
 
 Sphere::Sphere(Vector3 center, double radius)

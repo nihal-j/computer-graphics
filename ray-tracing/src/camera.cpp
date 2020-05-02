@@ -44,7 +44,7 @@ void Camera::updateCamera()
     alpha.normalize();
     beta = Vector3::cross(alpha, viewDir);
     beta.normalize();
-
+    // center is position plus length times the direction of viewing
     center = position + length*viewDir;
 }
 

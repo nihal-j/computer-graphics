@@ -3,7 +3,7 @@
 
 Scene::Scene()
 {
-
+    // no setup necessary
 }
 
 bool Scene::addCamera(Camera camera)
@@ -24,9 +24,14 @@ bool Scene::render(Image* img)
     img -> getSize(xSize, ySize);
     Color pixelColor;
     double distance;
+    // variable for sanity check
     double minDist = 1000.0;
 
-    // normalizing the screen coordinates
+    // normalization of coordinates to [-1, 1] needs to be done
+    // formula for normalization:
+    // x_normalized = pixel_size * ((x_screen*2/width) - 1)
+    // y_normalized = pixel_size * ((y_screen*2/width) - 1) * aspectRatio
+
     float xSizef = static_cast<float>(xSize);
     float ySizef = static_cast<float>(ySize);
     float aspectRatio = ySizef / xSizef;
@@ -67,6 +72,7 @@ Color Scene::computeColor(Ray castRay, double* distance)
 
     // find the nearest object, if there is one
     hitFlag = findNearestIntersection(castRay, &intersection, &normal, &localColor, &dist, &objIndex);
+    // now we know the pixel that has to be colored and the color of that pixel
 
     if (hitFlag)
     {
@@ -78,7 +84,6 @@ Color Scene::computeColor(Ray castRay, double* distance)
         *distance = 1000.0;
         outputColor.setHSV(0.0, 0.0, 0.0);
     }
-
     return outputColor;
 }
 
@@ -90,10 +95,12 @@ bool Scene::findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 
     Vector3 normal_, intersection_;
     bool hitFlag = false;
 
+    // go over all the objects in `objectList`
     for (int i = 0; i < static_cast<int>(objectList.size()); i++)
     {
         if (objectList[i] -> testIntersection(castRay, &intersection_, &normal_, &color_, &distance_))
         {
+            // ith object intersects with `castRay`
             hitFlag = true;
             if (distance_ < minDist)
             {
@@ -108,4 +115,3 @@ bool Scene::findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 
     }
     return hitFlag;
 }
-

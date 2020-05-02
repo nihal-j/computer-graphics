@@ -4,7 +4,7 @@
 
 ObjectBase::ObjectBase()
 {
-
+    // no setup for default constructor required
 }
 
 ObjectBase::~ObjectBase()
