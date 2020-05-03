@@ -167,7 +167,9 @@ void Scene::computeIllumination(Vector3 intersection, Vector3 normal, const int 
             Vector3 lightPos = lightList[i] -> getPosition();
 
             // construct the ray from intersection point to the light source
-            Ray lightRay(intersection, lightPos);
+            // shifting origin by some amount to prevent surface acne
+            Vector3 origin = intersection + normal*0.001;
+            Ray lightRay(origin, lightPos);
 
             // compute the angle between normal and the light ray
             double cos = Vector3::dot(normal, lightRay.direction) / (normal.length()*lightRay.direction.length());
@@ -178,15 +180,26 @@ void Scene::computeIllumination(Vector3 intersection, Vector3 normal, const int 
                 localColor = lightList[i] -> getColor();
                 // effective intensity at the point is I_light * cos(angle)
                 localIntensity = lightList[i] -> getIntensity() * cos;
-                double h = localColor.getHuef();
-                double s = localColor.getSaturationf();
-                double v = localColor.getValuef() * localIntensity;
-                localColor.setHSV(h, s, v);
-                r += localColor.getRedf();
-                g += localColor.getGreenf();
-                b += localColor.getBluef();
 
-                cumulativeIntensity += localIntensity;
+                double distanceToLight = intersection.distanceToPoint(lightPos);
+
+                // see if there is any other object in line of sight from `intersection` to light source
+                for (int j = 0; j < static_cast<int>(objectList.size()); j++)
+                {
+                    Vector3 inters, n;
+                    Color c;
+                    double d;
+                    if (objectList[j] -> testIntersection(lightRay, &inters, &n, &c, &d))
+                    {
+                        // if the object intersects with the light ray
+                        if (d < distanceToLight)
+                        {
+                            // and its distance is less than distance of original intersection point to the light source
+                            // then there should be no illumination
+                            localIntensity = 0.0;
+                        }
+                    }
+                }
             }
             else
             {
@@ -194,7 +207,19 @@ void Scene::computeIllumination(Vector3 intersection, Vector3 normal, const int 
                 localColor.setRGB(0.0, 0.0, 0.0);
                 localIntensity = 0.0;
             }
-        }   
+
+            double h = localColor.getHuef();
+            double s = localColor.getSaturationf();
+            double v = localColor.getValuef() * localIntensity;
+            localColor.setHSV(h, s, v);
+
+            r += localColor.getRedf();
+            g += localColor.getGreenf();
+            b += localColor.getBluef();
+
+            cumulativeIntensity += localIntensity;
+        }
+
         r = fmin(r, 1.0);
         g = fmin(g, 1.0);
         b = fmin(b, 1.0);

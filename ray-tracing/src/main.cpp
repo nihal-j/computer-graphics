@@ -13,7 +13,7 @@ int main()
 {
     // define a camera
     Camera camera;
-    camera.setPosition(Vector3(0.0, -10.0, 0.0));
+    camera.setPosition(Vector3(0.0, -10.0, 2.0));
     camera.setLookAt(Vector3(0.0, 0.0, 0.0));
     camera.setLength(1.5);
     camera.setUp(Vector3(0.0, 0.0, 1.0));
@@ -22,13 +22,14 @@ int main()
     // define an object
     Sphere sphere1 = Sphere(Vector3(0.0, 0.0, 0.0), 0.5);
     sphere1.setBaseColor(Color(0.2, 0.5, 0.8));
-    Sphere sphere2 = Sphere(Vector3(-1.16, 0.0, 0.0), 0.5);
+    Sphere sphere2 = Sphere(Vector3(-1.0, 0.0, 0.0), 0.5);
     sphere2.setBaseColor(Color(1.0, 0.5, 0.0));
-    Sphere sphere3 = Sphere(Vector3(1.16, 0.0, 0.0), 0.5);
+    Sphere sphere3 = Sphere(Vector3(1.0, 0.0, 0.0), 0.5);
     sphere3.setBaseColor(Color(1.0, 0.75, 0.0));
 
     // define a floor plane
-    Plane floor(Vector3(0.0, 0.0, -1.0), Vector3(1.0, 0.0, -1.0), Vector3(0.0, 1.0, -1.0));
+    Plane floor(Vector3(0.0, 0.0, -0.5), Vector3(1.0, 0.0, -0.5), Vector3(0.0, 1.0, -0.5));
+    floor.setBaseColor(Color(0.0, 0.5, 0.5));
 
     // create the scene
     Scene scene;
@@ -39,9 +40,9 @@ int main()
     scene.addObject(&floor);
 
     // define a light source
-    LightPoint light1(Vector3(0.0, -5.0, 10.0), Color(1.0, 1.0, 1.0), 1.0);
+    LightPoint light1(Vector3(5.0, -5.0, 10.0), Color(1.0, 1.0, 1.0), 1.0);
     scene.addLight(&light1);
-    LightPoint camLight(Vector3(0.0, -10.0, 0.0), Color(1.0, 1.0, 1.0), 0.125);
+    LightPoint camLight(camera.position, Color(1.0, 1.0, 1.0), 0.125);
     scene.addLight(&camLight);
 
     // create an Image
