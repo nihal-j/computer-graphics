@@ -18,10 +18,10 @@ public:
     Vector3 up;
     // length from camera to screen
     double length;
-    // size of a pixel
+    // size of the screen on which image will be rendered (square screen is assumed)
     double screenSize;
 
-    // unit vectors defining the camera coordinate space
+    // unit vectors defining the normalized screen coordinate space
     Vector3 alpha;
     Vector3 beta;
     // center of the camera screen in world coordinates

@@ -29,12 +29,22 @@ class Color
         // methods for retrieving RGB values back as byte values
         unsigned char getRed()      { return static_cast<unsigned char>(red * 255.0); }
         unsigned char getBlue()     { return static_cast<unsigned char>(blue * 255.0); }
-        unsigned char getGreen()    { return static_cast<unsigned char>(green * 255.0); }        
+        unsigned char getGreen()    { return static_cast<unsigned char>(green * 255.0); }  
+
+        // methods for retrieving RGB values back as double values
+        double getRedf()      { return red; }
+        double getBluef()     { return blue; }
+        double getGreenf()    { return green; }        
 
         // methods for retrieving HSV values back as byte values
         unsigned char getHue()          { return static_cast<unsigned char>((hue/360.0) * 255.0); }
         unsigned char getSaturation()   { return static_cast<unsigned char>(saturation*255.0); }
         unsigned char getValue()        { return static_cast<unsigned char>(value * 255.0); }
+
+        // methods for retrieving HSV values back as double values
+        unsigned char getHuef()          { return hue; }
+        unsigned char getSaturationf()   { return saturation; }
+        unsigned char getValuef()        { return value; }
 
 
     private:

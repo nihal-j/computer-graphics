@@ -35,6 +35,8 @@ public:
     Vector3 normalized();
     // calculate distnace of some specified `point` from this vector
     double distanceToPoint(Vector3 &point) const;
+    // return norm of vector
+    double length();
 
     // static functions
     // dot product of `a` and `b`

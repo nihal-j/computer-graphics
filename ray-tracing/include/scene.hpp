@@ -5,8 +5,12 @@
 #include <vector>
 #include "vector3.hpp"
 #include "object_base.hpp"
+#include "light_base.hpp"
 #include "image.hpp"
 #include "camera.hpp"
+#include "ray.hpp"
+
+const double PI = 3.1415;
 
 /**
  * @brief class Scene is used to simulate a screen that renders an the image of scene by coloring
@@ -22,6 +26,8 @@ public:
     bool addCamera(Camera camera);
     // add a new Object to the scene
     bool addObject(ObjectBase* obj);
+    // add a new Light to the scene
+    bool addLight(LightBase* light);
 
     /**
      * API to render the ray traced image into `img`. Image rendering is done by releasing rays into the image.
@@ -34,6 +40,8 @@ private:
     Camera camera;
     // references to all the objects added to the scene
     std::vector<ObjectBase*> objectList;
+    // references to all the lights added to the scene
+    std::vector<LightBase*> lightList;
 
     /**
      * @brief API to calculate the color that is reflected using `castRay` and store the distance of the point of intersection from the camera in `dist`; makes use of `findNearestIntersection`
@@ -56,6 +64,7 @@ private:
      */
     bool findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 *normal, Color *color, double *distance, int *objIndex);
 
+    void computeIllumination(const Vector3 intersection, const Vector3 normal, const int objIdx, Color *finalColor, double *intensity);
 };
 
 #endif

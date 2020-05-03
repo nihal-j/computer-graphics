@@ -91,7 +91,8 @@ bool Sphere::testIntersection(const Ray castRay, Vector3 *intersection, Vector3 
         *normal = norm;
 
         // return the color of the point
-        color -> setHSV(baseHue, baseSat, baseValue);
+        // color -> setHSV(baseHue, baseSat, baseValue);
+        *color = baseColor;
         // std::cout << baseHue << " " << baseSat << " " << baseValue << "\n";
 
         return true;

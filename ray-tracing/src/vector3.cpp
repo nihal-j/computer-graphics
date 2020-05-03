@@ -71,6 +71,11 @@ double Vector3::distanceToPoint(Vector3 &point) const
     return dist;
 }
 
+double Vector3::length()
+{
+    return sqrt((x*x) + (y*y) + (z*z));
+}
+
 Vector3 Vector3::operator+(const Vector3 &rhs) const
 {
     Vector3 result;

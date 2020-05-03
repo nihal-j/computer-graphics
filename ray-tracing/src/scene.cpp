@@ -18,6 +18,12 @@ bool Scene::addObject(ObjectBase* obj)
     return true;
 }
 
+bool Scene::addLight(LightBase* light)
+{
+    lightList.push_back(light);
+    return true;
+}
+
 bool Scene::render(Image* img)
 {
     int xSize, ySize;
@@ -44,6 +50,7 @@ bool Scene::render(Image* img)
     {
         for (int y = 0; y < ySize; y++)
         {
+            // `normX` and `normY` are normalized screen coordinates
             float normX = (static_cast<float>(x)*xScale) - ss;
             float normY = ((static_cast<float>(y)*yScale) - ss)*aspectRatio;
 
@@ -66,8 +73,8 @@ bool Scene::render(Image* img)
 Color Scene::computeColor(Ray castRay, double* distance)
 {
     Vector3 intersection, normal;
-    Color localColor, outputColor, color;
-    double dist;
+    Color localColor, outputColor, color, illuminationColor;
+    double dist, intensity;
     int objIndex;
     bool hitFlag;
 
@@ -77,11 +84,25 @@ Color Scene::computeColor(Ray castRay, double* distance)
 
     if (hitFlag)
     {
-        outputColor = localColor;
+        // call computeIllumination to calculate the lighting at this point
+        computeIllumination(intersection, normal, objIndex, &illuminationColor, &intensity);
+        if (intensity > 0.0)
+        {
+            color = localColor;
+            double r = color.getRedf() * illuminationColor.getRedf();
+            double g = color.getGreenf() * illuminationColor.getGreenf();
+            double b = color.getBluef() * illuminationColor.getBluef();
+            color.setRGB(r, g, b);
+        }
+        else
+        {
+            color.setRGB(0.0, 0.0, 0.0);
+        }
+        outputColor = color;
     }
     else
     {
-        outputColor.setHSV(0.0, 0.0, 0.0);
+        outputColor.setRGB(0.25, 0.25, 0.25);
     }
     return outputColor;
 }
@@ -114,4 +135,72 @@ bool Scene::findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 
         }
     }
     return hitFlag;
+}
+
+void Scene::computeIllumination(Vector3 intersection, Vector3 normal, const int objIdx, Color *finalColor, double *intensity)
+{
+    Vector3 objectPoint, objectNormal;
+    Color localColor, objectColor, cumulativeColor;
+    double localIntensity, cumulativeIntensity;
+    double r, g, b;
+    double normalLength = normal.length();
+    
+    cumulativeIntensity = 0.0;
+    r = g = b = 0.0;
+
+    // check if there are any lights
+    if (lightList.size() < 1)
+    {
+        // no lights in the scene
+        cumulativeColor.setRGB(1.0, 1.0, 1.0);
+        cumulativeIntensity = 1.0;
+    }
+    else
+    {
+        // there are lights in the scene
+        // construct a ray from this intersection point to each light source
+        for (int i = 0; i < static_cast<int>(lightList.size()); i++)
+        {
+            // construct a ray from intersection point to the light
+            // Vector3 lightDir = (lightList[i] -> getPosition() - intersection).normalized();
+            // Vector3 lightDst = intersection + lightDir;
+            Vector3 lightPos = lightList[i] -> getPosition();
+
+            // construct the ray from intersection point to the light source
+            Ray lightRay(intersection, lightPos);
+
+            // compute the angle between normal and the light ray
+            double cos = Vector3::dot(normal, lightRay.direction) / (normal.length()*lightRay.direction.length());
+            double angle = acos(cos);
+            if (angle <= PI/2.0)
+            {
+                // getting properties of the current light source
+                localColor = lightList[i] -> getColor();
+                // effective intensity at the point is I_light * cos(angle)
+                localIntensity = lightList[i] -> getIntensity() * cos;
+                double h = localColor.getHuef();
+                double s = localColor.getSaturationf();
+                double v = localColor.getValuef() * localIntensity;
+                localColor.setHSV(h, s, v);
+                r += localColor.getRedf();
+                g += localColor.getGreenf();
+                b += localColor.getBluef();
+
+                cumulativeIntensity += localIntensity;
+            }
+            else
+            {
+                // light source is pointing away from the point
+                localColor.setRGB(0.0, 0.0, 0.0);
+                localIntensity = 0.0;
+            }
+        }   
+        r = fmin(r, 1.0);
+        g = fmin(g, 1.0);
+        b = fmin(b, 1.0);
+        cumulativeColor.setRGB(r, g, b);
+        cumulativeIntensity = fmin(1.0, cumulativeIntensity);
+    }
+    *finalColor = cumulativeColor;
+    *intensity = cumulativeIntensity;
 }
