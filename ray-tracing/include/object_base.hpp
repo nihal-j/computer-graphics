@@ -42,6 +42,9 @@ public:
 
     // helper function to check if two double type numbers are same
     bool closeEnough(double d1, double d2);
+
+    // reflectivity coefficient
+    double kRef;
 };
 
 #endif

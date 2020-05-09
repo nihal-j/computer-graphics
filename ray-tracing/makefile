@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -I include
+CFLAGS = -Wall -I include -g
 
 target = main
 

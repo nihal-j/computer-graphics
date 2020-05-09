@@ -42,6 +42,10 @@ private:
     std::vector<ObjectBase*> objectList;
     // references to all the lights added to the scene
     std::vector<LightBase*> lightList;
+    // recursion limit fo reflection calculation
+    int reflectionRecursionLimit;
+    // reflection recursion count
+    int reflectionRecursionCount;
 
     /**
      * @brief API to calculate the color that is reflected using `castRay` and store the distance of the point of intersection from the camera in `dist`; makes use of `findNearestIntersection`
@@ -65,6 +69,9 @@ private:
     bool findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 *normal, Color *color, double *distance, int *objIndex);
 
     void computeIllumination(const Vector3 intersection, const Vector3 normal, const int objIdx, Color *finalColor, double *intensity);
+
+    // for reflections
+    Vector3 computeReflected(const Vector3 incident, const Vector3 normal);
 };
 
 #endif

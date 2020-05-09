@@ -3,7 +3,7 @@
 
 Scene::Scene()
 {
-    // no setup necessary
+    reflectionRecursionLimit = 2;
 }
 
 bool Scene::addCamera(Camera camera)
@@ -58,6 +58,7 @@ bool Scene::render(Image* img)
             Ray castRay = camera.generateRay(normX, normY);
 
             // calculate the color using the ray
+            reflectionRecursionCount = 0;
             pixelColor = computeColor(castRay, &distance);
             minDist = std::min(minDist, distance);
 
@@ -76,7 +77,7 @@ Color Scene::computeColor(Ray castRay, double* distance)
     Color localColor, outputColor, color, illuminationColor;
     double dist, intensity;
     int objIndex;
-    bool hitFlag;
+    bool hitFlag = false;
 
     // find the nearest object, if there is one
     hitFlag = findNearestIntersection(castRay, &intersection, &normal, &localColor, &dist, &objIndex);
@@ -98,18 +99,51 @@ Color Scene::computeColor(Ray castRay, double* distance)
         {
             color.setRGB(0.0, 0.0, 0.0);
         }
+
+        // reflect the ray
+        // check if the object is reflective
+        if (objectList[objIndex] -> kRef)
+        {
+            // check that the recursion limit has not been crossed
+            if (reflectionRecursionCount < reflectionRecursionLimit)
+            {
+                reflectionRecursionCount++;
+
+                // compute direction of reflection
+                Vector3 reflected = computeReflected(castRay.direction, normal);
+
+                // add some displacement to avoid screen acne
+                Vector3 start = intersection + normal*0.001;
+                Vector3 end = start + reflected;
+
+                // generate the reflected ray
+                Ray reflectedRay = Ray(start, end);
+
+                // recurse to calculate color
+                double refDist;
+                Color reflectedColor = computeColor(reflectedRay, &refDist);
+                
+                // do a weighted sum of the reflected color and the illumination color
+                double kRef = objectList[objIndex] -> kRef;
+                double r = (reflectedColor.getRedf()*kRef) + (color.getRedf()*(1.0 - kRef));
+                double g = (reflectedColor.getGreenf()*kRef) + (color.getGreenf()*(1.0 - kRef));
+                double b = (reflectedColor.getBluef()*kRef) + (color.getBluef()*(1.0 - kRef));
+                color.setRGB(r, g, b);
+            }   
+        }
+
         outputColor = color;
     }
     else
     {
-        outputColor.setRGB(0.25, 0.25, 0.25);
+        outputColor.setRGB(0.0, 0.0, 0.0);
     }
     return outputColor;
 }
 
 bool Scene::findNearestIntersection(Ray castRay, Vector3 *intersection, Vector3 *normal, Color *color, double *distance, int *objIndex)
 {
-    double minDist = 1000.0;
+    double minDist = 100000.0;
     double distance_;
     Color color_;
     Vector3 normal_, intersection_;
@@ -228,4 +262,17 @@ void Scene::computeIllumination(Vector3 intersection, Vector3 normal, const int 
     }
     *finalColor = cumulativeColor;
     *intensity = cumulativeIntensity;
+}
+
+Vector3 Scene::computeReflected(const Vector3 incident, const Vector3 normal)
+{
+    Vector3 incident_ = incident;
+    incident_.normalize();
+    Vector3 normal_ = normal;
+    normal_.normalize();
+
+    Vector3 reflected = incident_ - 2*normal_*Vector3::dot(normal_, incident_);
+    reflected.normalize();
+
+    return reflected;
 }

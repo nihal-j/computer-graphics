@@ -82,6 +82,7 @@ bool Sphere::testIntersection(const Ray castRay, Vector3 *intersection, Vector3 
 
         // return these values
         *distance = dist;
+        // std::cout << dist << "\n";
         *intersection = pointOfIntersection;
 
         // calculate the local normal
