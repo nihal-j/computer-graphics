@@ -17,13 +17,13 @@
 class ObjectBase
 {
 public:
-    // default constructor
+    /// default constructor
     ObjectBase();
     virtual ~ObjectBase();
 
-    // set color of the object
+    /// set color of the object
     virtual bool setBaseColor(Color color);
-    // get color of the object
+    /// get color of the object
     virtual Color getBaseColor();
 
     /**
@@ -40,10 +40,10 @@ public:
      */
     virtual bool testIntersection(const Ray castRay, Vector3 *intersection, Vector3 *normal, Color* color, double *distance);
 
-    // helper function to check if two double type numbers are same
+    /// helper function to check if two double type numbers are same
     bool closeEnough(double d1, double d2);
 
-    // reflectivity coefficient
+    /// reflectivity coefficient
     double kRef;
 };
 

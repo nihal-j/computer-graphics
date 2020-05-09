@@ -4,33 +4,38 @@
 #include "color.hpp"
 #include "vector3.hpp"
 
+/**
+ * @brief class `LightBase` is a blueprint for any type of light source.
+ * 
+ */
+
 class LightBase
 {
 public:
     LightBase();
     virtual ~LightBase();
 
-    // set color of light
+    /// set color of light
     virtual bool setColor(Color color);
-    // get color of light
+    /// get color of light
     virtual Color getColor();
 
-    // set intensity of light
+    //// set intensity of light
     virtual bool setIntensity(double intensity);
-    // get intensity of light
+    /// get intensity of light
     virtual double getIntensity();
 
-    // set position of light
+    /// set position of light
     virtual bool setPosition(Vector3 position);
-    // get position of light
+    /// get position of light
     virtual Vector3 getPosition();
 
 private:
-    // color of the light source
+    /// color of the light source
     Color color;
-    // intensity of the light source
+    /// intensity of the light source
     double intensity;
-    // position of the light source
+    /// position of the light source
     Vector3 position;
 };
 

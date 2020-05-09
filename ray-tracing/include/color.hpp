@@ -6,8 +6,9 @@
 #include <cmath>
 
 /**
- * Color is used to store values of all channels of a color. Currently supported types of channels are RGB and HSV.
+ * @brief Class `Color` is used to store values of all channels of a color. Currently supported types of channels are RGB and HSV.
  */
+
 class Color
 {
     public:

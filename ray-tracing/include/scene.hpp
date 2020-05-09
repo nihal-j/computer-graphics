@@ -19,14 +19,14 @@ const double PI = 3.1415;
 class Scene
 {
 public:
-    // default constructor only; no setup reqiuired
+    /// default constructor only; no setup reqiuired
     Scene();
 
-    // add Camera to the scene
+    /// add Camera to the scene
     bool addCamera(Camera camera);
-    // add a new Object to the scene
+    /// add a new Object to the scene
     bool addObject(ObjectBase* obj);
-    // add a new Light to the scene
+    /// add a new Light to the scene
     bool addLight(LightBase* light);
 
     /**
@@ -36,15 +36,15 @@ public:
     bool render(Image *img);
 
 private:
-    // single camera in the scene
+    /// single camera in the scene
     Camera camera;
-    // references to all the objects added to the scene
+    /// references to all the objects added to the scene
     std::vector<ObjectBase*> objectList;
-    // references to all the lights added to the scene
+    /// references to all the lights added to the scene
     std::vector<LightBase*> lightList;
-    // recursion limit fo reflection calculation
+    /// recursion limit fo reflection calculation
     int reflectionRecursionLimit;
-    // reflection recursion count
+    /// reflection recursion count
     int reflectionRecursionCount;
 
     /**
@@ -70,7 +70,7 @@ private:
 
     void computeIllumination(const Vector3 intersection, const Vector3 normal, const int objIdx, Color *finalColor, double *intensity);
 
-    // for reflections
+    /// for reflections
     Vector3 computeReflected(const Vector3 incident, const Vector3 normal);
 };
 

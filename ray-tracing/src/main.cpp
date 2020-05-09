@@ -1,3 +1,8 @@
+/**
+ * @file main.cpp
+ * @brief Driver file
+ */
+
 #include <iostream>
 #include <cmath>
 #include "camera.hpp"

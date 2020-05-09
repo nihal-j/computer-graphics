@@ -5,6 +5,11 @@
 #include "vector3.hpp"
 #include "light_base.hpp"
 
+/**
+ * @brief class `LightPoint` extends `LightBase`. It simulates a point light source.
+ * 
+ */
+
 class LightPoint : public LightBase
 {
 public:

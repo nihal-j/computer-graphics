@@ -9,14 +9,14 @@
 class Ray
 {
 public:
-    // src point of this ray
+    /// src point of this ray
     Vector3 src;
-    // destinatiion point of this ray
+    /// destination point of this ray
     Vector3 dest;
-    // direction vector of this ray ( = dest - src)
+    /// direction vector of this ray ( = dest - src)
     Vector3 direction;
 
-    // constructor to setup the ray from `src` to `dst`.
+    /// constructor to setup the ray from `src` to `dst`.
     Ray(Vector3 &src, Vector3 &dst);
 };
 

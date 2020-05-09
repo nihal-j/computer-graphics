@@ -10,26 +10,26 @@
 class Camera
 {
 public:
-    // point of the camera position in world coordinates
+    /// point of the camera position in world coordinates
     Vector3 position;
-    // point of the camera's look at in world coordinates
+    /// point of the camera's look at in world coordinates
     Vector3 lookAt;
-    // camera's up vector
+    /// camera's up vector
     Vector3 up;
-    // length from camera to screen
+    /// length from camera to screen
     double length;
-    // size of the screen on which image will be rendered (square screen is assumed)
+    /// size of the screen on which image will be rendered (square screen is assumed)
     double screenSize;
 
-    // unit vectors defining the normalized screen coordinate space
+    /// unit vectors defining the normalized screen coordinate space
     Vector3 alpha;
     Vector3 beta;
-    // center of the camera screen in world coordinates
+    /// center of the camera screen in world coordinates
     Vector3 center;
-    // view vector of the camera (lookAt - position); should be stored as a normal vector
+    /// view vector of the camera (lookAt - position); should be stored as a normal vector
     Vector3 viewDir;
 
-    // default constructor
+    /// default constructor
     Camera();
     void setPosition(Vector3 pos);
     void setLookAt(Vector3 vec);
@@ -37,10 +37,10 @@ public:
     void setLength(double l);
     void setSize(double s);
 
-    // camera should be able to generate a ray from its `position` to any coordinate in the scene
-    // generate a ray from camera position to specified coordinates on the screen
+    /// camera should be able to generate a ray from its `position` to any coordinate in the scene
+    /// generate a ray from camera position to specified coordinates on the screen
     Ray generateRay(double screenX, double screenY);
-    // calculate `alpha`, `beta`, `center` and `viewDir` from other camera properties
+    /// calculate `alpha`, `beta`, `center` and `viewDir` from other camera properties
     void updateCamera();
 };
 
