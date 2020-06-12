@@ -230,6 +230,8 @@ void Scene::computeIllumination(Vector3 intersection, Vector3 normal, const int 
                         {
                             // and its distance is less than distance of original intersection point to the light source
                             // then there should be no illumination
+                            
+                            // shadows are set here
                             localIntensity = 0.0;
                         }
                     }
